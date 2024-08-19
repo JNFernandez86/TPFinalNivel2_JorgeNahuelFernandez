@@ -47,5 +47,10 @@ namespace Presentacion
                 throw;
             }
         }
+
+        private void frmArticulos_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

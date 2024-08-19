@@ -9,23 +9,40 @@ namespace Negocio
 {
     public class NegocioArticulos
     {
-        //public List<Articulos> ListarArticulos()
-        //{
-        //    List<Articulos> art = new List<Articulos>();
-        //    try
-        //    {
+        public List<Articulos> ListarArticulos()
+        {
+            List<Articulos> art = new List<Articulos>();
+            try
+            {
 
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    finally
-        //    {
 
-        //    }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
 
-        
+            }
+            return art;
+
+
+        }
+
+        public void agregarArticulos()
+        {
+
+        }
+        public void actualizarArticulos()
+        {
+
+        }
+
+        public void eliminarArticulos()
+        {
+
+        }
     }
 }

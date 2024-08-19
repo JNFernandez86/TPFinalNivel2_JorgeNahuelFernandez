@@ -34,9 +34,10 @@
             // 
             // btnConectar
             // 
-            this.btnConectar.Location = new System.Drawing.Point(302, 117);
+            this.btnConectar.Location = new System.Drawing.Point(453, 180);
+            this.btnConectar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnConectar.Name = "btnConectar";
-            this.btnConectar.Size = new System.Drawing.Size(144, 50);
+            this.btnConectar.Size = new System.Drawing.Size(216, 77);
             this.btnConectar.TabIndex = 0;
             this.btnConectar.Text = "Conectar";
             this.btnConectar.UseVisualStyleBackColor = true;
@@ -44,9 +45,10 @@
             // 
             // btnDesconectar
             // 
-            this.btnDesconectar.Location = new System.Drawing.Point(302, 209);
+            this.btnDesconectar.Location = new System.Drawing.Point(453, 322);
+            this.btnDesconectar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnDesconectar.Name = "btnDesconectar";
-            this.btnDesconectar.Size = new System.Drawing.Size(144, 50);
+            this.btnDesconectar.Size = new System.Drawing.Size(216, 77);
             this.btnDesconectar.TabIndex = 1;
             this.btnDesconectar.Text = "Desconectar";
             this.btnDesconectar.UseVisualStyleBackColor = true;
@@ -54,15 +56,17 @@
             // 
             // frmArticulos
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1200, 692);
             this.Controls.Add(this.btnDesconectar);
             this.Controls.Add(this.btnConectar);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmArticulos";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Artículos";
+            this.Load += new System.EventHandler(this.frmArticulos_Load);
             this.ResumeLayout(false);
 
         }

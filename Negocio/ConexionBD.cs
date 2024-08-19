@@ -12,8 +12,13 @@ namespace Negocio
 {
     public class ConexionBD
     {
-        private SqlConnection conexion = new SqlConnection("Data Source=192.168.0.13;Initial Catalog=CATALOGO_DB; User ID=Administrador;Password=Soporte00");
-
+        //private SqlConnection conexion = new SqlConnection("Data Source=192.168.0.13;Initial Catalog=CATALOGO_DB; User ID=Administrador;Password=Soporte00");
+        private SqlConnection conexion = new SqlConnection("server=.;database=CATALOGO_DB; integrated security=true");
+        private SqlDataReader dreader;
+        public SqlDataReader Dreader
+        {
+            get { return dreader; }
+        }
 
         public void abrirConexion()
         {
@@ -30,6 +35,8 @@ namespace Negocio
                 conexion.Close();
             }
         }
+
+
     }
 }
       

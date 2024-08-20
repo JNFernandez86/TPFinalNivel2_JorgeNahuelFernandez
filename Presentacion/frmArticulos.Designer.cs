@@ -30,14 +30,16 @@
         {
             this.btnConectar = new System.Windows.Forms.Button();
             this.btnDesconectar = new System.Windows.Forms.Button();
+            this.dtgArticulos = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgArticulos)).BeginInit();
             this.SuspendLayout();
             // 
             // btnConectar
             // 
-            this.btnConectar.Location = new System.Drawing.Point(453, 180);
+            this.btnConectar.Location = new System.Drawing.Point(13, 509);
             this.btnConectar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnConectar.Name = "btnConectar";
-            this.btnConectar.Size = new System.Drawing.Size(216, 77);
+            this.btnConectar.Size = new System.Drawing.Size(170, 37);
             this.btnConectar.TabIndex = 0;
             this.btnConectar.Text = "Conectar";
             this.btnConectar.UseVisualStyleBackColor = true;
@@ -45,20 +47,37 @@
             // 
             // btnDesconectar
             // 
-            this.btnDesconectar.Location = new System.Drawing.Point(453, 322);
+            this.btnDesconectar.Location = new System.Drawing.Point(191, 512);
             this.btnDesconectar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnDesconectar.Name = "btnDesconectar";
-            this.btnDesconectar.Size = new System.Drawing.Size(216, 77);
+            this.btnDesconectar.Size = new System.Drawing.Size(153, 34);
             this.btnDesconectar.TabIndex = 1;
             this.btnDesconectar.Text = "Desconectar";
             this.btnDesconectar.UseVisualStyleBackColor = true;
             this.btnDesconectar.Click += new System.EventHandler(this.btnDesconectar_Click);
+            // 
+            // dtgArticulos
+            // 
+            this.dtgArticulos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dtgArticulos.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dtgArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgArticulos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dtgArticulos.Location = new System.Drawing.Point(13, 96);
+            this.dtgArticulos.MultiSelect = false;
+            this.dtgArticulos.Name = "dtgArticulos";
+            this.dtgArticulos.ReadOnly = true;
+            this.dtgArticulos.RowHeadersWidth = 62;
+            this.dtgArticulos.RowTemplate.Height = 28;
+            this.dtgArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dtgArticulos.Size = new System.Drawing.Size(1021, 392);
+            this.dtgArticulos.TabIndex = 2;
             // 
             // frmArticulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 692);
+            this.Controls.Add(this.dtgArticulos);
             this.Controls.Add(this.btnDesconectar);
             this.Controls.Add(this.btnConectar);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -67,6 +86,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Artículos";
             this.Load += new System.EventHandler(this.frmArticulos_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dtgArticulos)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -75,6 +95,7 @@
 
         private System.Windows.Forms.Button btnConectar;
         private System.Windows.Forms.Button btnDesconectar;
+        private System.Windows.Forms.DataGridView dtgArticulos;
     }
 }
 

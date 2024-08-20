@@ -18,39 +18,25 @@ namespace Presentacion
         {
             InitializeComponent();
         }
-       private ConexionBD nueva = new ConexionBD();
+       private AccesoDatos nueva = new AccesoDatos();
 
         private void btnConectar_Click(object sender, EventArgs e)
         {
        
-            try
-            {
-                nueva.abrirConexion();
-                MessageBox.Show("Se ha conectado a la BD");
-
-            }catch(Exception ex)
-            {
-                MessageBox.Show("No se encuentra el servidor de la BD");
-            }
+           
         }
 
         private void btnDesconectar_Click(object sender, EventArgs e)
         {
-            try
-            {
-                nueva.cerraConexion();
-                    MessageBox.Show("Se ha desconectado a la BD");
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            
         }
 
         private void frmArticulos_Load(object sender, EventArgs e)
         {
+            NegocioArticulos articulos = new NegocioArticulos();
 
+            articulos.ListarArticulos();
+            
         }
     }
 }

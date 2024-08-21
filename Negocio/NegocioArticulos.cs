@@ -22,10 +22,9 @@ namespace Negocio
 
             try
             {
-                string sql = "SELECT * FROM ARTICULOS";
-                datos.conectar();
-                datos.
-               
+                string sql = "SELECT Id,Codigo, Nombre, Descripcion,IdMarca,IdCategoria,ImagenUrl,Precio FROM ARTICULOS";
+                datos.crearComando(sql);
+                dr = datos.reader;
 
                 while (dr.Read()) 
                 {
@@ -36,7 +35,7 @@ namespace Negocio
                     articulos.Descripcion = (string)dr["Descripcion"];
                     articulos.Marca = (int)dr["IdMarca"];
                     articulos.Categoria = (int)dr["IdCategoria"];
-                    articulos.UrlImagen = (string)dr["UrlImagen"];
+                    articulos.UrlImagen = (string)dr["ImagenUrl"];
                     articulos.Precio = (decimal)dr["Precio"];
                     art.Add(articulos);
                 }
@@ -49,9 +48,9 @@ namespace Negocio
             }
             finally
             {
-                datos.cerraConexion();
+                datos.desconectar();
             }
-            return art;
+           
 
 
         }

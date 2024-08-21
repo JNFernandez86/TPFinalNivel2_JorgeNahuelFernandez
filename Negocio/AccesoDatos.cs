@@ -13,13 +13,13 @@ namespace Negocio
 {
     public class AccesoDatos
     {
-        //private SqlConnection conexion = new SqlConnection("Data Source=192.168.0.13;Initial Catalog=CATALOGO_DB; User ID=Administrador;Password=Soporte00");
-        private string cadena = "server=.;database=CATALOGO_DB; integrated security=true";
+        private string cadena = ("Data Source=192.168.0.13;Initial Catalog=CATALOGO_DB; User ID=Administrador;Password=Soporte00");
+        //private string cadena = "server=.;database=CATALOGO_DB; integrated security=true";
         private SqlConnection conexion;
         private SqlCommand cmd;
-        private SqlDataReader reader;
+        private SqlDataReader Reader;
 
-        public void conectar()
+        private void conectar()
         {
             conexion = new SqlConnection(cadena);
             conexion.Open();
@@ -28,9 +28,20 @@ namespace Negocio
         { 
             conexion.Close(); 
         }
-        
-        public 
 
+        public SqlDataReader reader
+        {
+            get { return Reader; }
+        }
+        public void crearComando(string consulta)
+        {
+            
+            //conexion = new SqlConnection (cadena);
+            conectar();
+            cmd = new SqlCommand (consulta, conexion);
+            Reader = cmd.ExecuteReader();
+
+        }
 
     }
 }

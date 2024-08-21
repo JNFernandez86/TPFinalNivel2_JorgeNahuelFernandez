@@ -13,33 +13,53 @@ namespace Negocio
 {
     public class AccesoDatos
     {
-        private string cadena = ("Data Source=192.168.0.13;Initial Catalog=CATALOGO_DB; User ID=Administrador;Password=Soporte00");
-        //private string cadena = "server=.;database=CATALOGO_DB; integrated security=true";
+        //private string cadena = ("Data Source=192.168.0.13;Initial Catalog=CATALOGO_DB; User ID=Administrador;Password=Soporte00");
+        //rivate string cadena = (@"server=.;database=CATALOGO_DB; integrated security=true");
         private SqlConnection conexion;
+
+
         private SqlCommand cmd;
         private SqlDataReader Reader;
 
-        private void conectar()
+        public AccesoDatos()
         {
-            conexion = new SqlConnection(cadena);
-            conexion.Open();
+            conexion = new SqlConnection("server=.;database=CATALOGO_DB; integrated security=true");
+            cmd = new SqlCommand();
         }
         public void desconectar() 
-        { 
-            conexion.Close(); 
+        {
+            if(Reader != null) 
+            conexion.Close();
         }
+       
+        public void setarconsulta(string consulta)
+        {
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandText = consulta;
+        }
+      
 
         public SqlDataReader reader
         {
             get { return Reader; }
         }
-        public void crearComando(string consulta)
+
+        public SqlCommand crearComando()
         {
+                   
             
-            //conexion = new SqlConnection (cadena);
-            conectar();
-            cmd = new SqlCommand (consulta, conexion);
-            Reader = cmd.ExecuteReader();
+            cmd.Connection = conexion;
+            try
+            {
+                conexion.Open ();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+                   
+           return cmd;
 
         }
 

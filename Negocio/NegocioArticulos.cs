@@ -13,6 +13,7 @@ namespace Negocio
     {
         AccesoDatos datos = new AccesoDatos();
         SqlDataReader dr;
+        string sql;
         
         public List<Articulos> ListarArticulos()
         {   
@@ -22,14 +23,16 @@ namespace Negocio
 
             try
             {
-                string sql = "SELECT Id,Codigo, Nombre, Descripcion,IdMarca,IdCategoria,ImagenUrl,Precio FROM ARTICULOS";
-                datos.crearComando(sql);
-                dr = datos.reader;
+                
+                datos.setarconsulta("select * from ARTICULOS;");
+                
+                dr = datos.crearComando().ExecuteReader();
 
                 while (dr.Read()) 
                 {
                     Articulos articulos = new Articulos();
-                    articulos.Id_articulos = (int)dr["Id"];
+
+                    articulos.Id = (int)dr["Id"];
                     articulos.Codigo = (string)dr["Codigo"];
                     articulos.Nombre = (string)dr["Nombre"];
                     articulos.Descripcion = (string)dr["Descripcion"];
@@ -50,7 +53,7 @@ namespace Negocio
             {
                 datos.desconectar();
             }
-           
+                 
 
 
         }

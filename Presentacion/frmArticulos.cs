@@ -14,29 +14,56 @@ namespace Presentacion
 {
     public partial class frmArticulos : Form
     {
+        private AccesoDatos nueva = new AccesoDatos();
+        private List<Articulos> ListaArt = new List<Articulos>();
         public frmArticulos()
         {
             InitializeComponent();
         }
-       private AccesoDatos nueva = new AccesoDatos();
+
+        public void ocultarColumnas()
+        {
+            dgvArticulos.Columns[0].Visible = false;
+            dgvArticulos.Columns[6].Visible = false;
+        }
 
         private void btnConectar_Click(object sender, EventArgs e)
         {
-       
-           
+
+
         }
 
         private void btnDesconectar_Click(object sender, EventArgs e)
         {
             
+
         }
 
         private void frmArticulos_Load(object sender, EventArgs e)
         {
-            NegocioArticulos articulos = new NegocioArticulos();
+            NegocioArticulos negocioArt = new NegocioArticulos();
 
-            articulos.ListarArticulos();
+            try
+            {
+                ListaArt = negocioArt.ListarArticulos();
+                dgvArticulos.DataSource = ListaArt;
+                ocultarColumnas();
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+
+
+
+        }
+
+        private void pbxImagenArticulo_Click(object sender, EventArgs e)
+        {
             
         }
     }
 }
+

@@ -16,6 +16,10 @@ namespace Presentacion
     {
         private AccesoDatos nueva = new AccesoDatos();
         private List<Articulos> ListaArt = new List<Articulos>();
+        Articulos seleccion;
+        private NegocioArticulos negocioArt; 
+
+        private string query;
         public frmArticulos()
         {
             InitializeComponent();
@@ -27,25 +31,15 @@ namespace Presentacion
             dgvArticulos.Columns[6].Visible = false;
         }
 
-        private void btnConectar_Click(object sender, EventArgs e)
-        {
-
-
-        }
-
-        private void btnDesconectar_Click(object sender, EventArgs e)
-        {
-            
-
-        }
-
+      
         private void frmArticulos_Load(object sender, EventArgs e)
         {
-            NegocioArticulos negocioArt = new NegocioArticulos();
+           negocioArt = new NegocioArticulos();
 
             try
             {
-                ListaArt = negocioArt.ListarArticulos();
+                query = "SELECT * FROM Articulos;";
+                ListaArt = negocioArt.ListarArticulos(query);
                 dgvArticulos.DataSource = ListaArt;
                 ocultarColumnas();
 
@@ -63,6 +57,21 @@ namespace Presentacion
         private void pbxImagenArticulo_Click(object sender, EventArgs e)
         {
             
+        }
+       
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            frmAltaArticulo frm = new frmAltaArticulo();
+            frm.ShowDialog();
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            //seleccion = (Articulos)dgvArticulos.CurrentRow.DataBoundItem;
+            frmAltaArticulo frm = new frmAltaArticulo(seleccion);
+            frm.ShowDialog();
+   
         }
     }
 }

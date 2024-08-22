@@ -12,36 +12,34 @@ namespace Negocio
     public class NegocioArticulos
     {
         AccesoDatos datos = new AccesoDatos();
-        SqlDataReader dr;
+      
         string sql;
         
-        public List<Articulos> ListarArticulos()
+        public List<Articulos> ListarArticulos(string ssql)
         {   
             List<Articulos> art = new List<Articulos>();
             //Articulos articulos = new Articulos();
 
-
-            try
+         try
             {
-                
-                datos.setarconsulta("select * from ARTICULOS;");
-                
-                dr = datos.crearComando().ExecuteReader();
+                datos.setarconsulta("select * from Articulos");
+                datos.ejecutarLectura();
 
-                while (dr.Read()) 
+                while (datos.Lector.Read()) 
                 {
                     Articulos articulos = new Articulos();
 
-                    articulos.Id = (int)dr["Id"];
-                    articulos.Codigo = (string)dr["Codigo"];
-                    articulos.Nombre = (string)dr["Nombre"];
-                    articulos.Descripcion = (string)dr["Descripcion"];
-                    articulos.Marca = (int)dr["IdMarca"];
-                    articulos.Categoria = (int)dr["IdCategoria"];
-                    articulos.UrlImagen = (string)dr["ImagenUrl"];
-                    articulos.Precio = (decimal)dr["Precio"];
+                    articulos.Id = (int)datos.Lector["Id"];
+                    articulos.Codigo = (string)datos.Lector["Codigo"];
+                    articulos.Nombre = (string)datos.Lector["Nombre"];
+                    articulos.Descripcion = (string)datos.Lector["Descripcion"];
+                    articulos.Marca = (int)datos.Lector["IdMarca"];
+                    articulos.Categoria = (int)datos.Lector["IdCategoria"];
+                    articulos.UrlImagen = (string)datos.Lector["ImagenUrl"];
+                    articulos.Precio = (decimal)datos.Lector["Precio"];
                     art.Add(articulos);
                 }
+                
                 
                 return art;
             }
@@ -53,8 +51,6 @@ namespace Negocio
             {
                 datos.desconectar();
             }
-                 
-
 
         }
 
@@ -71,5 +67,8 @@ namespace Negocio
         {
 
         }
+
+        //public 
+
     }
 }

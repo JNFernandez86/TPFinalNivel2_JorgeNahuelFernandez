@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using Logica;
 using Negocio;
 
@@ -14,34 +16,56 @@ namespace Presentacion
 {
     public partial class frmArticulos : Form
     {
-        private AccesoDatos nueva = new AccesoDatos();
-        private List<Articulos> ListaArt = new List<Articulos>();
-        Articulos seleccion;
-        private NegocioArticulos negocioArt; 
-
+        private AccesoADatos nueva = new AccesoADatos();
+        private List<Articulo> ListaArt = new List<Articulo>();
+        Articulo seleccion;
+        private ArticuloNegocio negocioArt;
         private string query;
+
+        
         public frmArticulos()
         {
             InitializeComponent();
         }
 
-        public void ocultarColumnas()
+        public void manejoColumnas()
         {
-            dgvArticulos.Columns[0].Visible = false;
-            dgvArticulos.Columns[6].Visible = false;
+            dgvArticulos.Columns[5].Visible = false;
+            dgvArticulos.Columns["Precio"].DefaultCellStyle.Format = "c";
+            dgvArticulos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvArticulos.Columns[dgvArticulos.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgvArticulos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        }
+
+        public void cargarImagen(string imagen)
+        {
+            try
+            {
+                pbxImagenArticulo.Load(imagen);
+            }
+            catch (Exception ex)
+            {
+                pbxImagenArticulo.Load("https://static.thenounproject.com/png/261694-200.png");
+                
+            }
+        }
+
+        public void cargar()
+        {
+
         }
 
       
         private void frmArticulos_Load(object sender, EventArgs e)
         {
-           negocioArt = new NegocioArticulos();
-
+           negocioArt = new ArticuloNegocio();
             try
             {
-                query = "SELECT * FROM Articulos;";
-                ListaArt = negocioArt.ListarArticulos(query);
+               
+                ListaArt = negocioArt.mostrar();
                 dgvArticulos.DataSource = ListaArt;
-                ocultarColumnas();
+                manejoColumnas();
+                pbxImagenArticulo.Load(ListaArt[0].UrlImagen);
 
             }
             catch (Exception ex)
@@ -49,8 +73,6 @@ namespace Presentacion
 
                 MessageBox.Show(ex.ToString());
             }
-
-
 
         }
 
@@ -72,6 +94,16 @@ namespace Presentacion
             frmAltaArticulo frm = new frmAltaArticulo(seleccion);
             frm.ShowDialog();
    
+        }
+
+        private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
+        {
+            Articulo elem = new Articulo();
+            if (dgvArticulos.CurrentRow != null)
+            {
+                Articulo select = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                cargarImagen(select.UrlImagen);
+            }
         }
     }
 }

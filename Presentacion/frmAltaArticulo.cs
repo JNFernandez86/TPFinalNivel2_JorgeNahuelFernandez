@@ -14,8 +14,8 @@ namespace Presentacion
 {
     public partial class frmAltaArticulo : Form
     {
-        private Articulos articulo = null;
-        NegocioArticulos negocioArt;
+        private Articulo articulo = null;
+        ArticuloNegocio negocioArt;
         private string query;
 
         public frmAltaArticulo()
@@ -24,12 +24,17 @@ namespace Presentacion
             
         }
 
-        public frmAltaArticulo(Articulos art)
+        public frmAltaArticulo(Articulo art)
         {
             InitializeComponent();
             this.articulo = art;
-            Text = "Modifcar Articulos";
+            Text = "Modificar Articulos";
             btnAceptar.Text = "Actualizar Artículos";
+        }
+
+        public void cargarComboBox()
+        {
+
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -39,21 +44,42 @@ namespace Presentacion
 
         private void frmAltaArticulo_Load(object sender, EventArgs e)
         {
-            NegocioArticulos negocioArt = new NegocioArticulos();
-
-            query = "Select * from Categorias";
-            //cmbCategoria = llenarcmb(cmbCategoria, query);
-            cmbCategoria.DataSource = negocioArt.ListarArticulos(query);
-            cmbCategoria.ValueMember = "Id";
-            cmbCategoria.DisplayMember = "Descripcion";
-        }
-        //private ComboBox llenarcmb(ComboBox cbo, string ssql)
-        //{
-        //    negocioArt = new NegocioArticulos();
             
-        //    cbo.DataSource = negocioArt.ListarCategorias(ssql);
+            try
+            {
+                cargarCombobox();
+                if (articulo != null) 
+                {
+                    txtCodigo.Text = articulo.Codigo;
+                    txtNombre.Text = articulo.Nombre;
+                    txtDescripcion.Text = articulo.Descripcion;
+                    txtImagenURL.Text = articulo.UrlImagen;
+                    cboMarca.SelectedValue = articulo.Marca;
+                    cboCategoria.SelectedValue = articulo.Categoria;
+                    txtPrecio.Text = articulo.Precio.ToString("c");
+                }
 
-        //    return cbo;
-        //}
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+            
+            
+        }
+
+        private void cargarCombobox()
+        {
+            CategoriaNegocio negocioCategoria = new CategoriaNegocio();
+            MarcaNegocio negocioMarca = new MarcaNegocio();
+            cboCategoria.DataSource = negocioCategoria.listarcat();
+            cboCategoria.ValueMember = "Id_Categoria";
+            cboCategoria.DisplayMember = "Descripcion";
+            cboMarca.DataSource = negocioMarca.listarMarca();
+            cboMarca.ValueMember = "IdMarca";
+            cboMarca.DisplayMember = "Descripcion";
+        }
+        
     }
 }

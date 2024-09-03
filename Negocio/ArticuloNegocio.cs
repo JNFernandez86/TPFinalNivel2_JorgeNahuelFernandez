@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -58,9 +59,71 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void agregarArticulo()
+        public void agregarArticulo(Articulo prop)
         {
+            datos = new AccesoADatos();
+            query = ("INSERT INTO ARTICULOS(Codigo,Nombre,Descripcion,IdMarca,IdCategoria,ImagenUrl,Precio) " +
+                "VALUES (@code,@name,@description,@idMarca,@idCategoria,@imagenUrl,@price);");
             
+
+            try
+            {
+                datos.cargarConsulta(query);
+                datos.cargarParametros("@code", prop.Codigo);
+                datos.cargarParametros("@name", prop.Nombre);
+                datos.cargarParametros("@description", prop.Descripcion);
+                datos.cargarParametros("@idMarca", prop.Marca.IdMarca);
+                datos.cargarParametros("@idCategoria", prop.Categoria.Id_Categoria);
+                datos.cargarParametros("@imagenUrl", prop.UrlImagen);
+                datos.cargarParametros("@price", prop.Precio);
+                datos.ejecutarProceso();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
         }
+        public void modificarArticulo(Articulo prop)
+            
+        {
+            datos = new AccesoADatos();
+            query = ("UPTDAE ARTICULOS SET Nombre=@name,Descripcion=@descriptio,@IdMarca=idMarca,@IdCategoria=@idcategoria," +
+                "ImagenUrl=@imagenUrl,Precio=@price) " +
+                " WHERE Codigo=@code");
+
+
+            try
+            {
+                datos.cargarConsulta(query);
+                datos.cargarParametros("@code", prop.Codigo);
+                datos.cargarParametros("@name", prop.Nombre);
+                datos.cargarParametros("@description", prop.Descripcion);
+                datos.cargarParametros("@idMarca", prop.Marca.IdMarca);
+                datos.cargarParametros("@idCategoria", prop.Categoria.Id_Categoria);
+                datos.cargarParametros("@imagenUrl", prop.UrlImagen);
+                datos.cargarParametros("@price", prop.Precio);
+                datos.ejecutarProceso();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+
     }
+    
 }

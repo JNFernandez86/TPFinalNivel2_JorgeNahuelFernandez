@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -32,11 +33,7 @@ namespace Presentacion
             btnAceptar.Text = "Actualizar Artículos";
         }
 
-        public void cargarComboBox()
-        {
-
-        }
-
+      
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             Close();
@@ -79,7 +76,68 @@ namespace Presentacion
             cboMarca.DataSource = negocioMarca.listarMarca();
             cboMarca.ValueMember = "IdMarca";
             cboMarca.DisplayMember = "Descripcion";
+            //cboCategoria.SelectedIndex = -1;
+            //cboMarca.SelectedIndex = -1;
+            //cboMarca.Visible = false;
+            //cboCategoria.Visible = false;
+            
+
         }
-        
+
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            negocioArt = new ArticuloNegocio();
+
+
+            try
+            {
+                if (articulo == null)
+                    articulo = new Articulo();
+
+
+                articulo.Codigo = txtCodigo.Text;
+                articulo.Nombre = txtNombre.Text;
+                articulo.Descripcion = txtDescripcion.Text;
+                articulo.Marca = (Marca)cboMarca.SelectedItem;
+                articulo.Categoria = (Categoria)cboCategoria.SelectedItem;
+                articulo.UrlImagen = txtImagenURL.Text;
+                articulo.Precio = Convert.ToDecimal(txtPrecio.Text);
+
+                if (articulo.Codigo != string.Empty)
+                {
+
+                    negocioArt.modificarArticulo(articulo);
+                    MessageBox.Show("Artículo Modificado exitosamente");
+                }
+                else
+                {
+
+                    negocioArt.agregarArticulo(articulo);
+                    MessageBox.Show("Articulo agregado exitosamente");
+                }
+                
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            Close();
+
+        }
+
+        private void txtCodigo_TextChanged(object sender, EventArgs e)
+        {
+            //if (txtCodigo.Text == string.Empty)
+            //{
+            //    cboCategoria.Visible = false;
+            //    cboMarca.Visible = false;
+            //}
+            //else
+            //{
+            //    cboCategoria.Visible = true;
+            //    cboMarca.Visible = true;
+            //}
+        }
     }
 }

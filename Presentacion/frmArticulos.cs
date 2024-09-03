@@ -52,16 +52,10 @@ namespace Presentacion
 
         public void cargar()
         {
-
-        }
-
-      
-        private void frmArticulos_Load(object sender, EventArgs e)
-        {
-           negocioArt = new ArticuloNegocio();
+            negocioArt = new ArticuloNegocio();
             try
             {
-               
+
                 ListaArt = negocioArt.mostrar();
                 dgvArticulos.DataSource = ListaArt;
                 manejoColumnas();
@@ -73,6 +67,12 @@ namespace Presentacion
 
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+      
+        private void frmArticulos_Load(object sender, EventArgs e)
+        {
+            cargar();
 
         }
 
@@ -86,13 +86,15 @@ namespace Presentacion
         {
             frmAltaArticulo frm = new frmAltaArticulo();
             frm.ShowDialog();
+            cargar();
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            //seleccion = (Articulos)dgvArticulos.CurrentRow.DataBoundItem;
+            seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
             frmAltaArticulo frm = new frmAltaArticulo(seleccion);
             frm.ShowDialog();
+            cargar();
    
         }
 

@@ -10,8 +10,8 @@ namespace Logica
 {
     public class AccesoADatos
     {
-        //private string basedatos = ("server=.;database=CATALOGO_DB; integrated security=true");
-        private string basedatos = ("Data Source=192.168.0.13;Initial Catalog=CATALOGO_DB; User ID=Administrador;Password=Soporte00");
+        private string basedatos = ("server=.;database=CATALOGO_DB; integrated security=true");
+        //private string basedatos = ("Data Source=192.168.0.13;Initial Catalog=CATALOGO_DB; User ID=Administrador;Password=Soporte00");
         private SqlConnection conexion;
         private SqlCommand cmd;
         private SqlDataReader lector;
@@ -70,6 +70,11 @@ namespace Logica
 
                 throw ex;
             }
+        }
+
+        public void cargarParametros(string nombre, object valor)
+        {
+            cmd.Parameters.AddWithValue(nombre, valor);
         }
 
     }

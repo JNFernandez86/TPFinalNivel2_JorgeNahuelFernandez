@@ -39,9 +39,10 @@
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(375, 332);
+            this.btnAgregar.Location = new System.Drawing.Point(18, 523);
+            this.btnAgregar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(123, 42);
+            this.btnAgregar.Size = new System.Drawing.Size(184, 65);
             this.btnAgregar.TabIndex = 0;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
@@ -49,9 +50,10 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(375, 389);
+            this.btnModificar.Location = new System.Drawing.Point(229, 523);
+            this.btnModificar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnModificar.Name = "btnModificar";
-            this.btnModificar.Size = new System.Drawing.Size(123, 41);
+            this.btnModificar.Size = new System.Drawing.Size(184, 63);
             this.btnModificar.TabIndex = 1;
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
@@ -59,10 +61,9 @@
             // 
             // pbxImagenArticulo
             // 
-            this.pbxImagenArticulo.Location = new System.Drawing.Point(12, 331);
-            this.pbxImagenArticulo.Margin = new System.Windows.Forms.Padding(2);
+            this.pbxImagenArticulo.Location = new System.Drawing.Point(1150, 91);
             this.pbxImagenArticulo.Name = "pbxImagenArticulo";
-            this.pbxImagenArticulo.Size = new System.Drawing.Size(358, 267);
+            this.pbxImagenArticulo.Size = new System.Drawing.Size(537, 411);
             this.pbxImagenArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbxImagenArticulo.TabIndex = 3;
             this.pbxImagenArticulo.TabStop = false;
@@ -72,32 +73,36 @@
             // 
             this.dgvArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvArticulos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvArticulos.Location = new System.Drawing.Point(12, 59);
+            this.dgvArticulos.Location = new System.Drawing.Point(18, 91);
+            this.dgvArticulos.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvArticulos.Name = "dgvArticulos";
-            this.dgvArticulos.Size = new System.Drawing.Size(707, 267);
+            this.dgvArticulos.RowHeadersWidth = 62;
+            this.dgvArticulos.Size = new System.Drawing.Size(1110, 411);
             this.dgvArticulos.TabIndex = 4;
             this.dgvArticulos.SelectionChanged += new System.EventHandler(this.dgvArticulos_SelectionChanged);
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(375, 445);
+            this.btnEliminar.Location = new System.Drawing.Point(430, 524);
+            this.btnEliminar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(123, 41);
+            this.btnEliminar.Size = new System.Drawing.Size(184, 63);
             this.btnEliminar.TabIndex = 5;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
             // 
             // frmArticulos
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(754, 602);
+            this.ClientSize = new System.Drawing.Size(1723, 926);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.dgvArticulos);
             this.Controls.Add(this.pbxImagenArticulo);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.btnAgregar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.Name = "frmArticulos";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

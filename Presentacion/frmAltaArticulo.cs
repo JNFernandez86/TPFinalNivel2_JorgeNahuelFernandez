@@ -44,7 +44,6 @@ namespace Presentacion
             {
 
                 pbxImagen.Load("https://static.thenounproject.com/png/261694-200.png");
-
             }
         }
 
@@ -58,7 +57,7 @@ namespace Presentacion
            try
             {                
                 cargarCombobox();
-
+                cboCategoria.SelectedIndex = -1;
                 if (articulo != null) 
                 {
                     txtCodigo.Text = articulo.Codigo;
@@ -148,21 +147,38 @@ namespace Presentacion
 
         private void txtCodigo_TextChanged(object sender, EventArgs e)
         {
-            //if (txtCodigo.Text == "" && articulo.IdArticulo = articulo.null)
-            //{
-            //    cboCategoria.Enabled = false;
-            //    cboMarca.Enabled = false;
-            //}
-            //else
-            //{
-            //    cboCategoria.Enabled = true;
-            //    cboMarca.Enabled = true;
-            //}
+            if (txtCodigo.Text == "")
+            {
+                cboCategoria.Enabled = false;
+                cboMarca.Enabled = false;
+            }
+            else
+            {
+                cboCategoria.Enabled = true;
+                cboMarca.Enabled = true;
+            }
         }
 
         private void txtImagenURL_Leave(object sender, EventArgs e)
         {
             cargarImagen(txtImagenURL.Text);
+        }
+
+        private void btnAgregarCategoria_Click(object sender, EventArgs e)
+        {
+            string tabla = "Categoria";
+            frmAltas altas = new frmAltas(tabla);
+            altas.ShowDialog();
+            cargarCombobox();
+
+        }
+
+        private void btnAgregarMarca_Click(object sender, EventArgs e)
+        {
+            string tabla = "Marca";
+            frmAltas altas = new frmAltas(tabla);
+            altas.ShowDialog();
+            cargarCombobox();
         }
     }
 }

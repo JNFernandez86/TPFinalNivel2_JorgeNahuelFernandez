@@ -33,9 +33,13 @@ namespace Presentacion
             dgvArticulos.Columns["UrlImagen"].Visible = false;
             dgvArticulos.Columns["IdArticulo"].Visible = false;
             dgvArticulos.Columns["Precio"].DefaultCellStyle.Format = "c";
-            dgvArticulos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dgvArticulos.Columns[dgvArticulos.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgvArticulos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvArticulos.RowHeadersVisible = false;
+            dgvArticulos.Columns[1].Width = 50;
+            dgvArticulos.Columns[2].Width = 150;
+            dgvArticulos.Columns[3].Width = 350;
+            dgvArticulos.Columns[4].Width = 75;
+            dgvArticulos.Columns[5].Width = 75;
+            dgvArticulos.Columns[7].Width = 75;
         }
 
         public void cargarImagen(string imagen)
@@ -61,7 +65,6 @@ namespace Presentacion
                 dgvArticulos.DataSource = ListaArt;
                 seteoDatagridview();
                 pbxImagenArticulo.Load(ListaArt[0].UrlImagen);
-
             }
             catch (Exception ex)
             {
@@ -74,16 +77,9 @@ namespace Presentacion
         private void frmArticulos_Load(object sender, EventArgs e)
         {
             cargar();
-
         }
 
-        private void pbxImagenArticulo_Click(object sender, EventArgs e)
-        {
-            
-        }
-       
-
-        private void btnAgregar_Click(object sender, EventArgs e)
+       private void btnAgregar_Click(object sender, EventArgs e)
         {
             frmAltaArticulo frm = new frmAltaArticulo();
             frm.ShowDialog();
@@ -92,11 +88,57 @@ namespace Presentacion
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-            frmAltaArticulo frm = new frmAltaArticulo(seleccion);
-            frm.ShowDialog();
-            cargar();
-   
+           
+            try
+            {
+                if(dgvArticulos.CurrentRow != null)
+                {
+                    seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                    frmAltaArticulo frm = new frmAltaArticulo(seleccion);
+                    frm.ShowDialog();
+                    cargar();
+                }
+                else
+                {
+                    MessageBox.Show("No ha seleccionado ningún artículo");
+                }
+            }
+           
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }         
+
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            try
+            {
+                if (dgvArticulos.CurrentRow != null)
+                {
+
+                    DialogResult rta = MessageBox.Show("Esta por eliminar un artículo, Desea Continuar?", "Alerta, ELIMINANDO...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (rta == DialogResult.Yes)
+                    {
+                        MessageBox.Show("Eliminado");
+                        negocio.eliminarArticulo(seleccion.IdArticulo);
+                        cargar();
+                    }
+                }
+                else
+                    
+                    MessageBox.Show("No ha seleccionado ningún artículo");
+
+            }
+
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
@@ -106,28 +148,6 @@ namespace Presentacion
             {
                 Articulo select = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
                 cargarImagen(select.UrlImagen);
-            }
-        }
-
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            try
-            {
-                seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-
-                DialogResult rta = MessageBox.Show("Esta por eliminar un artículo de la vista, Desea Continuar?","Alerta, ELIMINANDO...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                if (rta == DialogResult.Yes)
-                {
-                    MessageBox.Show("Eliminado");
-                    negocio.eliminarArticulo(seleccion.IdArticulo);
-                }
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.ToString());
             }
         }
     }

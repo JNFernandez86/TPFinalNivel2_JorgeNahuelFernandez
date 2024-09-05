@@ -17,7 +17,7 @@ namespace Negocio
         public List<Articulo> mostrar()
         {
             List<Articulo> list = new List<Articulo>();
-            query = ("select a.CODIGO,a.NOMBRE, a.Descripcion,m.Descripcion Marca, m.Id IdMarca, c.Descripcion Categoria, m.id IdCategoria ,ImagenUrl, Precio " +
+            query = ("select a.Id, a.CODIGO,a.NOMBRE, a.Descripcion,m.Descripcion Marca, m.Id IdMarca, c.Descripcion Categoria, m.id IdCategoria ,ImagenUrl, Precio " +
                 "from ARTICULOS a " +
                 "INNER JOIN MARCAS m ON m.Id = a.IdMarca " +
                 "INNER JOIN CATEGORIAS c on c.Id = a.IdCategoria");
@@ -31,6 +31,7 @@ namespace Negocio
                 {
                     Articulo aux = new Articulo();
 
+                    aux.IdArticulo = (int)datos.da["Id"];
                     aux.Codigo = (string)datos.da["Codigo"];
                     aux.Nombre = (string)datos.da["Nombre"];
                     aux.Descripcion = (string)datos.da["Descripcion"];
@@ -94,14 +95,14 @@ namespace Negocio
             
         {
             datos = new AccesoADatos();
-            query = ("UPTDAE ARTICULOS SET Nombre=@name,Descripcion=@descriptio,@IdMarca=idMarca,@IdCategoria=@idcategoria," +
-                "ImagenUrl=@imagenUrl,Precio=@price) " +
-                " WHERE Codigo=@code");
+            query = ("UPDATE ARTICULOS SET Nombre=@name,Descripcion=@description,@IdMarca=idMarca,@IdCategoria=@idcategoria,ImagenUrl=@imagenUrl,Precio=@price  " +
+                " WHERE Id=@idArticulo");
 
 
             try
             {
                 datos.cargarConsulta(query);
+                
                 datos.cargarParametros("@code", prop.Codigo);
                 datos.cargarParametros("@name", prop.Nombre);
                 datos.cargarParametros("@description", prop.Descripcion);
@@ -109,6 +110,7 @@ namespace Negocio
                 datos.cargarParametros("@idCategoria", prop.Categoria.Id_Categoria);
                 datos.cargarParametros("@imagenUrl", prop.UrlImagen);
                 datos.cargarParametros("@price", prop.Precio);
+                datos.cargarParametros("@idArticulo", prop.IdArticulo);
                 datos.ejecutarProceso();
 
             }
@@ -124,6 +126,26 @@ namespace Negocio
 
         }
 
+        public void eliminarArticulo(int codigo)
+        {
+            datos = new AccesoADatos();
+            query = "DELETE FROM ARTICULOS WHERE Id=@IdArticulo";
+
+            try
+            {
+                datos.cargarConsulta(query);
+                datos.cargarParametros("@IdArticulo",codigo);
+                datos.ejecutarProceso();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
+
+        }
     }
     
 }

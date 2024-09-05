@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Logica;
 using Negocio;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Presentacion
 {
@@ -33,27 +34,47 @@ namespace Presentacion
             btnAceptar.Text = "Actualizar Artículos";
         }
 
-      
-        private void btnCancelar_Click(object sender, EventArgs e)
+        private void cargarImagen(string img)
+        {
+            try
+            {
+                pbxImagen.Load(img);
+            }
+            catch (Exception ex)
+            {
+
+                pbxImagen.Load("https://static.thenounproject.com/png/261694-200.png");
+
+            }
+        }
+
+            private void btnCancelar_Click(object sender, EventArgs e)
         {
             Close();
         }
 
         private void frmAltaArticulo_Load(object sender, EventArgs e)
         {
-            
-            try
-            {
+           try
+            {                
                 cargarCombobox();
+
                 if (articulo != null) 
                 {
                     txtCodigo.Text = articulo.Codigo;
                     txtNombre.Text = articulo.Nombre;
                     txtDescripcion.Text = articulo.Descripcion;
                     txtImagenURL.Text = articulo.UrlImagen;
-                    cboMarca.SelectedValue = articulo.Marca;
-                    cboCategoria.SelectedValue = articulo.Categoria;
-                    txtPrecio.Text = articulo.Precio.ToString("c");
+                    cargarImagen(articulo.UrlImagen);
+                    cboMarca.SelectedValue = articulo.Marca.IdMarca;
+                    cboCategoria.SelectedValue = articulo.Categoria.Id_Categoria;
+                    txtPrecio.Text = articulo.Precio.ToString("##.##");
+                    
+                }
+                else
+                {
+                    cboCategoria.Enabled = false;
+                    cboMarca.Enabled = false;
                 }
 
             }
@@ -62,39 +83,39 @@ namespace Presentacion
 
                 MessageBox.Show(ex.ToString());
             }
-            
-            
+
         }
 
         private void cargarCombobox()
         {
             CategoriaNegocio negocioCategoria = new CategoriaNegocio();
             MarcaNegocio negocioMarca = new MarcaNegocio();
-            cboCategoria.DataSource = negocioCategoria.listarcat();
-            cboCategoria.ValueMember = "Id_Categoria";
-            cboCategoria.DisplayMember = "Descripcion";
-            cboMarca.DataSource = negocioMarca.listarMarca();
-            cboMarca.ValueMember = "IdMarca";
-            cboMarca.DisplayMember = "Descripcion";
-            //cboCategoria.SelectedIndex = -1;
-            //cboMarca.SelectedIndex = -1;
-            //cboMarca.Visible = false;
-            //cboCategoria.Visible = false;
-            
 
+            try
+            {
+                cboCategoria.DataSource = negocioCategoria.listarcat();
+                cboCategoria.ValueMember = "Id_Categoria";
+                cboCategoria.DisplayMember = "Descripcion";
+                cboMarca.DataSource = negocioMarca.listarMarca();
+                cboMarca.ValueMember = "IdMarca";
+                cboMarca.DisplayMember = "Descripcion";
+                
+            }
+            catch (Exception ex)
+            {
+                 MessageBox.Show(ex.ToString());
+            }
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             negocioArt = new ArticuloNegocio();
 
-
             try
             {
                 if (articulo == null)
                     articulo = new Articulo();
-
-
+  
                 articulo.Codigo = txtCodigo.Text;
                 articulo.Nombre = txtNombre.Text;
                 articulo.Descripcion = txtDescripcion.Text;
@@ -103,7 +124,7 @@ namespace Presentacion
                 articulo.UrlImagen = txtImagenURL.Text;
                 articulo.Precio = Convert.ToDecimal(txtPrecio.Text);
 
-                if (articulo.Codigo != string.Empty)
+                if (articulo.IdArticulo != 0)
                 {
 
                     negocioArt.modificarArticulo(articulo);
@@ -111,7 +132,6 @@ namespace Presentacion
                 }
                 else
                 {
-
                     negocioArt.agregarArticulo(articulo);
                     MessageBox.Show("Articulo agregado exitosamente");
                 }
@@ -120,7 +140,7 @@ namespace Presentacion
             catch (Exception ex)
             {
 
-                throw ex;
+                MessageBox.Show(ex.ToString());
             }
             Close();
 
@@ -128,16 +148,21 @@ namespace Presentacion
 
         private void txtCodigo_TextChanged(object sender, EventArgs e)
         {
-            //if (txtCodigo.Text == string.Empty)
+            //if (txtCodigo.Text == "" && articulo.IdArticulo = articulo.null)
             //{
-            //    cboCategoria.Visible = false;
-            //    cboMarca.Visible = false;
+            //    cboCategoria.Enabled = false;
+            //    cboMarca.Enabled = false;
             //}
             //else
             //{
-            //    cboCategoria.Visible = true;
-            //    cboMarca.Visible = true;
+            //    cboCategoria.Enabled = true;
+            //    cboMarca.Enabled = true;
             //}
+        }
+
+        private void txtImagenURL_Leave(object sender, EventArgs e)
+        {
+            cargarImagen(txtImagenURL.Text);
         }
     }
 }

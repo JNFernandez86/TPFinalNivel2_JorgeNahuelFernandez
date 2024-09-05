@@ -28,9 +28,10 @@ namespace Presentacion
             InitializeComponent();
         }
 
-        public void manejoColumnas()
+        public void seteoDatagridview()
         {
-            dgvArticulos.Columns[5].Visible = false;
+            dgvArticulos.Columns["UrlImagen"].Visible = false;
+            dgvArticulos.Columns["IdArticulo"].Visible = false;
             dgvArticulos.Columns["Precio"].DefaultCellStyle.Format = "c";
             dgvArticulos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvArticulos.Columns[dgvArticulos.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -58,7 +59,7 @@ namespace Presentacion
 
                 ListaArt = negocioArt.mostrar();
                 dgvArticulos.DataSource = ListaArt;
-                manejoColumnas();
+                seteoDatagridview();
                 pbxImagenArticulo.Load(ListaArt[0].UrlImagen);
 
             }
@@ -105,6 +106,28 @@ namespace Presentacion
             {
                 Articulo select = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
                 cargarImagen(select.UrlImagen);
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            try
+            {
+                seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+
+                DialogResult rta = MessageBox.Show("Esta por eliminar un artículo de la vista, Desea Continuar?","Alerta, ELIMINANDO...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (rta == DialogResult.Yes)
+                {
+                    MessageBox.Show("Eliminado");
+                    negocio.eliminarArticulo(seleccion.IdArticulo);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
             }
         }
     }

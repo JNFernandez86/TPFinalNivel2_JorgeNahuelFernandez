@@ -146,6 +146,55 @@ namespace Negocio
             
 
         }
+        public List<Articulo> buscar(string busqueda)
+        {
+            List<Articulo> listArticulo = new List<Articulo>();
+
+            query = "select a.Id, a.CODIGO,a.NOMBRE, a.Descripcion,m.Descripcion Marca, m.Id IdMarca, c.Descripcion Categoria, m.id IdCategoria ,ImagenUrl, Precio " +
+                "from ARTICULOS a " +
+                "INNER JOIN MARCAS m ON m.Id = a.IdMarca " +
+                "INNER JOIN CATEGORIAS c on c.Id = a.IdCategoria " +
+                "WHERE a.NOMBRE LIKE '%" + busqueda + "%' OR a.Descripcion like '%" + busqueda + "%'" ;
+            try
+            {
+                datos.cargarConsulta(query);
+                datos.leerDatos();
+
+                while (datos.da.Read())
+                {
+                    Articulo nuevo = new Articulo();
+
+                    nuevo.IdArticulo = (int)datos.da["Id"];
+                    nuevo.Codigo = (string)datos.da["Codigo"];
+                    nuevo.Nombre = (string)datos.da["Nombre"];
+                    nuevo.Descripcion = (string)datos.da["Descripcion"];
+                    nuevo.Marca = new Marca();
+                    nuevo.Marca.IdMarca = (int)datos.da["IdMarca"];
+                    nuevo.Marca.Descripcion = (string)datos.da["Marca"];
+                    nuevo.Categoria = new Categoria();
+                    nuevo.Categoria.Id_Categoria = (int)datos.da["IdCategoria"];
+                    nuevo.Categoria.Descripcion = (string)datos.da["Categoria"];
+                    nuevo.Precio = (decimal)datos.da["Precio"];
+                    if (!(datos.da["ImagenUrl"] is DBNull))
+                        nuevo.UrlImagen = nuevo.UrlImagen = (string)datos.da["ImagenUrl"];
+
+                    listArticulo.Add(nuevo);
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+            
+            return listArticulo;
+        }
+    
     }
     
 }

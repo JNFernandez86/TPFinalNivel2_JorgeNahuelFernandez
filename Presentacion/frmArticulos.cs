@@ -21,8 +21,8 @@ namespace Presentacion
         Articulo seleccion;
         private ArticuloNegocio negocioArt;
         private string query;
-
         
+
         public frmArticulos()
         {
             InitializeComponent();
@@ -35,11 +35,11 @@ namespace Presentacion
             dgvArticulos.Columns["Precio"].DefaultCellStyle.Format = "c";
             dgvArticulos.RowHeadersVisible = false;
             dgvArticulos.Columns[1].Width = 50;
-            dgvArticulos.Columns[2].Width = 150;
+            dgvArticulos.Columns[2].Width = 120;
             dgvArticulos.Columns[3].Width = 350;
             dgvArticulos.Columns[4].Width = 75;
             dgvArticulos.Columns[5].Width = 75;
-            dgvArticulos.Columns[7].Width = 75;
+            dgvArticulos.Columns[7].Width = 90;
         }
 
         public void cargarImagen(string imagen)
@@ -64,7 +64,9 @@ namespace Presentacion
                 ListaArt = negocioArt.mostrar();
                 dgvArticulos.DataSource = ListaArt;
                 seteoDatagridview();
+                gbxFiltroAvanzado.Visible = false;
                 pbxImagenArticulo.Load(ListaArt[0].UrlImagen);
+                btnBuscar.Enabled = false;
             }
             catch (Exception ex)
             {
@@ -73,7 +75,25 @@ namespace Presentacion
             }
         }
 
-      
+      public void cargarcombobox()
+        {
+            if (rdbPrecio.Checked == true)
+            {
+                cboCriterio.Items.Clear();
+                cboCriterio.Items.Add("Igual a ");
+                cboCriterio.Items.Add("Mayor a ");
+                cboCriterio.Items.Add("Menor a ");
+            }
+            else
+            {
+                
+                cboCriterio.Items.Add("Contiene ");
+                cboCriterio.Items.Add("Termina con ");
+                cboCriterio.Items.Add("Comienza con ");
+            }
+
+        }
+  
         private void frmArticulos_Load(object sender, EventArgs e)
         {
             cargar();
@@ -149,6 +169,66 @@ namespace Presentacion
                 Articulo select = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
                 cargarImagen(select.UrlImagen);
             }
+        }
+
+        private void txtBusqueda_TextChanged(object sender, EventArgs e)
+        {
+            if(txtBusqueda.Text.Length > 2)
+            {
+                btnBuscar.Enabled = true;
+            }
+            else
+            {
+                btnBuscar.Enabled =false;
+            }
+        }
+          
+              
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if ((chbFiltroAvanzado.Checked))
+                {
+                    if(!(rdbNombre.Checked || rdbDescripcion.Checked || rdbPrecio.Checked))
+                    {
+                        MessageBox.Show("No ha seleccionado ningún Campo, por favor de seleccionar uno");
+                    }
+                   
+                    
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show( ex.ToString());
+            }
+
+        }
+
+        private void rdbNombre_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chbFiltroAvanzado_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chbFiltroAvanzado.Checked)
+            {
+                gbxFiltroAvanzado.Visible = true;
+
+            }
+            else
+            {
+                gbxFiltroAvanzado.Visible = false;
+            }
+        }
+
+        private void gbxABM_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

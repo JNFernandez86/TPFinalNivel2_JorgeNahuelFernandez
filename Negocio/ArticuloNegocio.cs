@@ -146,7 +146,7 @@ namespace Negocio
             
 
         }
-        public List<Articulo> buscar(string busqueda)
+        public List<Articulo> buscar(string busqueda, string criterio, string condicion)
         {
             List<Articulo> listArticulo = new List<Articulo>();
 

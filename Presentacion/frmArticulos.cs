@@ -67,6 +67,7 @@ namespace Presentacion
                 gbxFiltroAvanzado.Visible = false;
                 pbxImagenArticulo.Load(ListaArt[0].UrlImagen);
                 btnBuscar.Enabled = false;
+                rdbNombre.Checked = true;
             }
             catch (Exception ex)
             {
@@ -77,9 +78,10 @@ namespace Presentacion
 
       public void cargarcombobox()
         {
+            cboCriterio.Items.Clear();
             if (rdbPrecio.Checked == true)
             {
-                cboCriterio.Items.Clear();
+                
                 cboCriterio.Items.Add("Igual a ");
                 cboCriterio.Items.Add("Mayor a ");
                 cboCriterio.Items.Add("Menor a ");
@@ -182,53 +184,62 @@ namespace Presentacion
                 btnBuscar.Enabled =false;
             }
         }
-          
-              
+    
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if ((chbFiltroAvanzado.Checked))
-                {
-                    if(!(rdbNombre.Checked || rdbDescripcion.Checked || rdbPrecio.Checked))
-                    {
-                        MessageBox.Show("No ha seleccionado ningún Campo, por favor de seleccionar uno");
-                    }
-                   
-                    
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show( ex.ToString());
-            }
-
+            
         }
 
         private void rdbNombre_CheckedChanged(object sender, EventArgs e)
         {
-
+            radiobuttonChecked(rdbNombre);
+            
         }
 
         private void chbFiltroAvanzado_CheckedChanged(object sender, EventArgs e)
         {
-            if (chbFiltroAvanzado.Checked)
+            if(chbFiltroAvanzado.Checked == true)
             {
                 gbxFiltroAvanzado.Visible = true;
-
             }
             else
             {
                 gbxFiltroAvanzado.Visible = false;
+
+            }
+                
+        }
+
+        private void gbxFiltroAvanzado_Enter(object sender, EventArgs e)
+        {
+           
+            
+            
+                        
+           
+        }
+
+        private void radiobuttonChecked(RadioButton rdb)
+        {
+            if (rdbNombre.Checked == true || rdbDescripcion.Checked == true || rdbPrecio.Checked == true)
+            {
+                cargarcombobox();
+            }
+            else
+            {
+                MessageBox.Show("No ha elegido ninguna Opcion");
             }
         }
 
-        private void gbxABM_Enter(object sender, EventArgs e)
+        private void rdbDescripcion_CheckedChanged(object sender, EventArgs e)
         {
+            radiobuttonChecked(rdbDescripcion);
+        }
 
+        private void rdbPrecio_CheckedChanged(object sender, EventArgs e)
+        {
+            radiobuttonChecked(rdbPrecio);
         }
     }
 }

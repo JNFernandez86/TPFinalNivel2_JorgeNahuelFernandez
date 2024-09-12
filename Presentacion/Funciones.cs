@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Presentacion
 {
     public class Funciones
     {
-        public void cargarcombobox(ComboBox cmb, RadioButton rdb, TextBox txt)
+        public void cargarComboBox(ComboBox cmb, RadioButton rdb, TextBox txt)
         {
             cmb.Items.Clear();
             if (rdb.Checked == true && rdb.Text == "Precio")
@@ -31,6 +32,33 @@ namespace Presentacion
             txt.Text = string.Empty;
             txt.Enabled = false;
         }
+        public void cargarComboBox(ComboBox combo)
+        {
+            CategoriaNegocio negocioCategoria = new CategoriaNegocio();
+            MarcaNegocio negocioMarca = new MarcaNegocio();
+            string nombre = "";
+            try
+            {
+                nombre = combo.Name;
+                if(combo.Name == "cboCategoria")
+                {
+                    combo.DataSource = negocioCategoria.listarcat();
+                    combo.ValueMember = "Id_Categoria";
+                }
+                else
+                {
+                    combo.DataSource = negocioMarca.listarMarca();
+                    combo.ValueMember = "IdMarca";
+                }
+                
+                combo.DisplayMember = "Descripcion";
+                combo.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
         public void seteoDatagridview(DataGridView dgv)
         {
             dgv.Columns["UrlImagen"].Visible = false;
@@ -43,6 +71,32 @@ namespace Presentacion
             dgv.Columns[4].Width = (int)(dgv.Width * 0.10);
             dgv.Columns[5].Width = (int)(dgv.Width * 0.10);
             dgv.Columns[7].Width = (int)(dgv.Width * 0.10);
+        }
+
+        public KeyPressEventArgs IsLetter(KeyPressEventArgs e)
+        {
+            if (Char.IsLetter(e.KeyChar) | Char.IsWhiteSpace(e.KeyChar) | char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+            }
+            return e;
+        }
+
+        public KeyPressEventArgs Isnumeric(KeyPressEventArgs e)
+        {
+            if (char.IsNumber(e.KeyChar) | char.IsControl(e.KeyChar) | char.ToString(e.KeyChar) == ",")
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+            }
+            return e;
         }
 
     }

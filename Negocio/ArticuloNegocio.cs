@@ -125,7 +125,6 @@ namespace Negocio
             }
 
         }
-
         public void eliminarArticulo(int codigo)
         {
             datos = new AccesoADatos();
@@ -233,7 +232,7 @@ namespace Negocio
             
             return listArticulo;
         }
-    public string GetQueryString(string txt, string criterio, string variable)
+        public string GetQueryString(string txt, string criterio, string variable)
         {
             switch (criterio) 
             {

@@ -56,9 +56,7 @@ namespace Presentacion
                 ListaArt = negocioArt.mostrar();
                 dgvArticulos.DataSource = ListaArt;
                 func.seteoDatagridview(dgvArticulos);
-                
                 //pbxImagenArticulo.Load(ListaArt[0].UrlImagen);
-                
                 rdbNombre.Checked = true;
                 txtBusqueda.Enabled = true;
             }
@@ -107,6 +105,7 @@ namespace Presentacion
             frmAltaArticulo frm = new frmAltaArticulo();
             frm.ShowDialog();
             cargar();
+            
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
@@ -199,22 +198,33 @@ namespace Presentacion
                 }
             }
         }
+        private void txtBusqueda_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (rdbPrecio.Checked == true)
+            {
+                func.Isnumeric(e);
+            }
+            else
+            {
+                func.IsLetter(e);
+            }
+        }
         private void rdbNombre_CheckedChanged(object sender, EventArgs e)
         {
             Funciones func = new Funciones();
-            func.cargarcombobox(cboCriterio, rdbNombre, txtBusqueda);
+            func.cargarComboBox(cboCriterio, rdbNombre, txtBusqueda);
         }
         private void rdbDescripcion_CheckedChanged(object sender, EventArgs e)
         {
             Funciones func = new Funciones();
-            func.cargarcombobox(cboCriterio, rdbDescripcion, txtBusqueda);
+            func.cargarComboBox(cboCriterio, rdbDescripcion, txtBusqueda);
 
         }
 
         private void rdbPrecio_CheckedChanged(object sender, EventArgs e)
         {
             Funciones func = new Funciones();
-            func.cargarcombobox(cboCriterio, rdbPrecio, txtBusqueda);
+            func.cargarComboBox (cboCriterio, rdbPrecio, txtBusqueda);
         }
         private void chbFiltroAvanzado_CheckedChanged(object sender, EventArgs e)
         {
@@ -253,6 +263,7 @@ namespace Presentacion
         }
         #endregion
 
+        
     }
 }
 

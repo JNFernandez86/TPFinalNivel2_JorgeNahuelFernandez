@@ -19,11 +19,10 @@ namespace Presentacion
         private Articulo articulo = null;
         ArticuloNegocio negocioArt;
         private string query;
-
+        private Funciones func = new Funciones();
         public frmAltaArticulo()
         {
-            InitializeComponent();
-            
+            InitializeComponent(); 
         }
 
         public frmAltaArticulo(Articulo art)
@@ -32,6 +31,8 @@ namespace Presentacion
             this.articulo = art;
             Text = "Modificar Articulos";
             btnAceptar.Text = "Actualizar Artículos";
+            btnAgregarMarca.Enabled = false;
+            btnAgregarCategoria.Enabled = false;
         }
 
         private void cargarImagen(string img)
@@ -42,7 +43,6 @@ namespace Presentacion
             }
             catch (Exception ex)
             {
-
                 pbxImagen.Load("https://static.thenounproject.com/png/261694-200.png");
             }
         }
@@ -56,8 +56,9 @@ namespace Presentacion
         {
            try
             {                
-                cargarCombobox();
-                cboCategoria.SelectedIndex = -1;
+                func.cargarComboBox(cboCategoria);
+                func.cargarComboBox(cboMarca);
+               
                 if (articulo != null) 
                 {
                     txtCodigo.Text = articulo.Codigo;
@@ -85,26 +86,26 @@ namespace Presentacion
 
         }
 
-        private void cargarCombobox()
-        {
-            CategoriaNegocio negocioCategoria = new CategoriaNegocio();
-            MarcaNegocio negocioMarca = new MarcaNegocio();
+        //private void cargarCombobox()
+        //{
+        //    CategoriaNegocio negocioCategoria = new CategoriaNegocio();
+        //    MarcaNegocio negocioMarca = new MarcaNegocio();
 
-            try
-            {
-                cboCategoria.DataSource = negocioCategoria.listarcat();
-                cboCategoria.ValueMember = "Id_Categoria";
-                cboCategoria.DisplayMember = "Descripcion";
-                cboMarca.DataSource = negocioMarca.listarMarca();
-                cboMarca.ValueMember = "IdMarca";
-                cboMarca.DisplayMember = "Descripcion";
+        //    try
+        //    {
+        //        cboCategoria.DataSource = negocioCategoria.listarcat();
+        //        cboCategoria.ValueMember = "Id_Categoria";
+        //        cboCategoria.DisplayMember = "Descripcion";
+        //        cboMarca.DataSource = negocioMarca.listarMarca();
+        //        cboMarca.ValueMember = "IdMarca";
+        //        cboMarca.DisplayMember = "Descripcion";
                 
-            }
-            catch (Exception ex)
-            {
-                 MessageBox.Show(ex.ToString());
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //         MessageBox.Show(ex.ToString());
+        //    }
+        //}
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
@@ -169,7 +170,7 @@ namespace Presentacion
             string tabla = "Categoria";
             frmAltas altas = new frmAltas(tabla);
             altas.ShowDialog();
-            cargarCombobox();
+            func.cargarComboBox(cboCategoria);
 
         }
 
@@ -178,7 +179,14 @@ namespace Presentacion
             string tabla = "Marca";
             frmAltas altas = new frmAltas(tabla);
             altas.ShowDialog();
-            cargarCombobox();
+            func.cargarComboBox(cboMarca);
+        }
+
+        private void txtPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Funciones func = new Funciones();
+
+            func.Isnumeric(e);
         }
     }
 }

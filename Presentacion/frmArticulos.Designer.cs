@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblCriterio = new System.Windows.Forms.Label();
             this.lblCampo = new System.Windows.Forms.Label();
             this.rdbNombre = new System.Windows.Forms.RadioButton();
@@ -44,6 +45,7 @@
             this.chbFiltroAvanzado = new System.Windows.Forms.CheckBox();
             this.gbxFiltroAvanzado = new System.Windows.Forms.GroupBox();
             this.llbSalir = new System.Windows.Forms.LinkLabel();
+            this.ttpAyuda = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pbxImagenArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             this.gbxFiltroAvanzado.SuspendLayout();
@@ -172,6 +174,7 @@
             this.txtBusqueda.Size = new System.Drawing.Size(416, 35);
             this.txtBusqueda.TabIndex = 0;
             this.txtBusqueda.TextChanged += new System.EventHandler(this.txtBusqueda_TextChanged);
+            this.txtBusqueda.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBusqueda_KeyPress);
             // 
             // dgvArticulos
             // 
@@ -282,6 +285,7 @@
         private System.Windows.Forms.Label lblCampo;
         private System.Windows.Forms.GroupBox gbxFiltroAvanzado;
         private System.Windows.Forms.LinkLabel llbSalir;
+        private System.Windows.Forms.ToolTip ttpAyuda;
     }
 }
 

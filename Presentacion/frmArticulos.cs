@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,31 +17,21 @@ namespace Presentacion
 {
     public partial class frmArticulos : Form
     {
-        private AccesoADatos nueva = new AccesoADatos();
-        private List<Articulo> ListaArt = new List<Articulo>();
-        Articulo seleccion;
-        private ArticuloNegocio negocioArt;
-        private string query;
-        
-
         public frmArticulos()
         {
             InitializeComponent();
         }
 
-        public void seteoDatagridview()
-        {
-            dgvArticulos.Columns["UrlImagen"].Visible = false;
-            dgvArticulos.Columns["IdArticulo"].Visible = false;
-            dgvArticulos.Columns["Precio"].DefaultCellStyle.Format = "c";
-            dgvArticulos.RowHeadersVisible = false;
-            dgvArticulos.Columns[1].Width = (int)(dgvArticulos.Width * 0.05);
-            dgvArticulos.Columns[2].Width = (int)(dgvArticulos.Width * 0.20); 
-            dgvArticulos.Columns[3].Width = (int)(dgvArticulos.Width * 0.35);
-            dgvArticulos.Columns[4].Width = (int)(dgvArticulos.Width * 0.10);
-            dgvArticulos.Columns[5].Width = (int)(dgvArticulos.Width * 0.10);
-            dgvArticulos.Columns[7].Width = (int)(dgvArticulos.Width * 0.10);
-        }
+        #region Variables Globales
+        private Funciones func;
+        private AccesoADatos nueva = new AccesoADatos();
+        private List<Articulo> ListaArt = new List<Articulo>();
+        Articulo seleccion;
+        private ArticuloNegocio negocioArt;
+        private string query;
+        #endregion
+
+        #region Funciones Locales
 
         public void cargarImagen(string imagen)
         {
@@ -57,17 +48,43 @@ namespace Presentacion
 
         public void cargar()
         {
+            func = new Funciones();
             negocioArt = new ArticuloNegocio();
             try
             {
-
+                txtBusqueda.Enabled = true; 
                 ListaArt = negocioArt.mostrar();
                 dgvArticulos.DataSource = ListaArt;
-                seteoDatagridview();
-                gbxFiltroAvanzado.Visible = false;
-                pbxImagenArticulo.Load(ListaArt[0].UrlImagen);
-                btnBuscar.Enabled = false;
+                func.seteoDatagridview(dgvArticulos);
+                
+                //pbxImagenArticulo.Load(ListaArt[0].UrlImagen);
+                
                 rdbNombre.Checked = true;
+                txtBusqueda.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        private void buscarAvanzado()
+        {
+            ArticuloNegocio neg = new ArticuloNegocio();
+            try
+            {
+                string campo = "";
+                string criterio = "";
+
+                if (rdbNombre.Checked == true)
+                    campo = "Nombre";
+                else if (rdbDescripcion.Checked == true)
+                    campo = "Descripcion";
+                else
+                    campo = "Precio";
+
+                criterio = cboCriterio.SelectedItem.ToString();
+                dgvArticulos.DataSource = neg.buscar(txtBusqueda.Text, campo, criterio);
             }
             catch (Exception ex)
             {
@@ -76,32 +93,16 @@ namespace Presentacion
             }
         }
 
-      public void cargarcombobox()
-        {
-            cboCriterio.Items.Clear();
-            if (rdbPrecio.Checked == true)
-            {
-                
-                cboCriterio.Items.Add("Igual a");
-                cboCriterio.Items.Add("Mayor a");
-                cboCriterio.Items.Add("Menor a");
-            }
-            else
-            {
-                
-                cboCriterio.Items.Add("Contiene");
-                cboCriterio.Items.Add("Termina con");
-                cboCriterio.Items.Add("Comienza con");
-            }
+        #endregion
 
-        }
-  
+        #region Eventos de Botones
         private void frmArticulos_Load(object sender, EventArgs e)
         {
             cargar();
+            gbxFiltroAvanzado.Visible = false;
         }
 
-       private void btnAgregar_Click(object sender, EventArgs e)
+        private void btnAgregar_Click(object sender, EventArgs e)
         {
             frmAltaArticulo frm = new frmAltaArticulo();
             frm.ShowDialog();
@@ -110,10 +111,10 @@ namespace Presentacion
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-           
+
             try
             {
-                if(dgvArticulos.CurrentRow != null)
+                if (dgvArticulos.CurrentRow != null)
                 {
                     seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
                     frmAltaArticulo frm = new frmAltaArticulo(seleccion);
@@ -125,11 +126,11 @@ namespace Presentacion
                     MessageBox.Show("No ha seleccionado ningún artículo");
                 }
             }
-           
+
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-            }         
+            }
 
         }
 
@@ -151,9 +152,7 @@ namespace Presentacion
                     }
                 }
                 else
-                    
                     MessageBox.Show("No ha seleccionado ningún artículo");
-
             }
 
             catch (Exception ex)
@@ -163,116 +162,97 @@ namespace Presentacion
             }
         }
 
+        #endregion
+
+        #region Eventos otros controles
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
         {
             Articulo elem = new Articulo();
             if (dgvArticulos.CurrentRow != null)
             {
                 Articulo select = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-                cargarImagen(select.UrlImagen);
+                //cargarImagen(select.UrlImagen);
             }
         }
 
         private void txtBusqueda_TextChanged(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
-            
-            if(txtBusqueda.Text.Length > 2)
+
+            if (txtBusqueda.Text.Length > 2)
             {
                 if (chbFiltroAvanzado.Checked == false)
                 {
                     dgvArticulos.DataSource = negocio.buscar(txtBusqueda.Text, null, null);
-
+                }
+                else
+                {
+                    buscarAvanzado();
                 }
             }
             else
             {
                 if (chbFiltroAvanzado.Checked == false)
                 {
+
                     cargar();
-
                 }
-
-                
             }
         }
-
-        private void btnBuscar_Click(object sender, EventArgs e)
-        {
-            ArticuloNegocio neg = new ArticuloNegocio();
-            try
-            {
-                string campo = "";
-                string criterio = "";
-
-                if (rdbNombre.Checked == true)
-                    campo = "Nombre";
-                else if (rdbDescripcion.Checked == true)
-                    campo = "Descripcion";
-                else
-                    campo = "Precio";
-                
-                criterio = cboCriterio.SelectedItem.ToString();
-                dgvArticulos.DataSource = neg.buscar(txtBusqueda.Text,campo, criterio);
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.ToString());
-            }
-            
-        }
-
         private void rdbNombre_CheckedChanged(object sender, EventArgs e)
         {
-            radiobuttonChecked(rdbNombre);
-            
+            Funciones func = new Funciones();
+            func.cargarcombobox(cboCriterio, rdbNombre, txtBusqueda);
         }
-
-        private void chbFiltroAvanzado_CheckedChanged(object sender, EventArgs e)
-        {
-            if(chbFiltroAvanzado.Checked == true)
-            {
-                gbxFiltroAvanzado.Visible = true;
-            }
-            else
-            {
-                gbxFiltroAvanzado.Visible = false;
-                cargar();
-
-            }   
-        }
-
-        private void radiobuttonChecked(RadioButton rdb)
-        {
-            if (rdbNombre.Checked == true || rdbDescripcion.Checked == true || rdbPrecio.Checked == true)
-            {
-                cargarcombobox();
-                cboCriterio.Text = "Seleccione la opción";
-                btnBuscar.Enabled = false;
-                cboCriterio.Focus();
-            }
-            else
-            {
-                MessageBox.Show("No ha elegido ninguna Opcion");
-            }
-        }
-
         private void rdbDescripcion_CheckedChanged(object sender, EventArgs e)
         {
-            radiobuttonChecked(rdbDescripcion);
+            Funciones func = new Funciones();
+            func.cargarcombobox(cboCriterio, rdbDescripcion, txtBusqueda);
+
         }
 
         private void rdbPrecio_CheckedChanged(object sender, EventArgs e)
         {
-            
-            radiobuttonChecked(rdbPrecio);
+            Funciones func = new Funciones();
+            func.cargarcombobox(cboCriterio, rdbPrecio, txtBusqueda);
+        }
+        private void chbFiltroAvanzado_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (chbFiltroAvanzado.Checked == true)
+            {
+                gbxFiltroAvanzado.Visible = true;
+                txtBusqueda.Enabled = false;
+            }
+            else
+            {
+                gbxFiltroAvanzado.Visible = false;
+                txtBusqueda.Enabled = true;
+                cargar();
+            }
         }
 
         private void cboCriterio_SelectedIndexChanged(object sender, EventArgs e)
         {
-            btnBuscar.Enabled = true;
+            if (cboCriterio.SelectedIndex != -1)
+            {
+                txtBusqueda.Enabled = true;
+                txtBusqueda.Focus();
+            }
+            else
+            {
+                txtBusqueda.Enabled = false;
+                cargar();
+            }
+            //cargar();
         }
+
+        private void llbSalir_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Close();
+        }
+        #endregion
+
     }
 }
 

@@ -146,17 +146,56 @@ namespace Negocio
             
 
         }
-        public List<Articulo> buscar(string busqueda, string criterio, string condicion)
+        public List<Articulo> buscar(string busqueda,string campo, string criterio)
         {
             List<Articulo> listArticulo = new List<Articulo>();
-
             query = "select a.Id, a.CODIGO,a.NOMBRE, a.Descripcion,m.Descripcion Marca, m.Id IdMarca, c.Descripcion Categoria, m.id IdCategoria ,ImagenUrl, Precio " +
-                "from ARTICULOS a " +
-                "INNER JOIN MARCAS m ON m.Id = a.IdMarca " +
-                "INNER JOIN CATEGORIAS c on c.Id = a.IdCategoria " +
-                "WHERE a.NOMBRE LIKE '%" + busqueda + "%' OR a.Descripcion like '%" + busqueda + "%'" ;
+                "from ARTICULOS a INNER JOIN MARCAS m ON m.Id = a.IdMarca INNER JOIN CATEGORIAS c on c.Id = a.IdCategoria " +
+                "WHERE ";
+
             try
             {
+                if (string.IsNullOrEmpty(campo) || string.IsNullOrEmpty(criterio))
+                {
+                    query += "a.NOMBRE LIKE '%" + busqueda + "%' OR a.Descripcion like '%" + busqueda + "%'";
+                }
+                else
+                {
+                    ;
+                    switch (campo)
+                    {
+                        case "Precio":
+                            query += "Precio";
+
+                            switch (criterio)
+                            {
+                                case "Mayor a":
+                                    query += " > " + busqueda;
+                                    break;
+                                case "Menor a":
+                                    query += " < " + busqueda;
+                                    break;
+                                case "Igual a":
+                                    query += " = " + busqueda;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        case "Nombre":
+                            query += GetQueryString(campo, criterio, busqueda);
+
+                            break;
+                        case "Descripcion":
+                            campo = "a.Descripcion";
+                            query += GetQueryString(campo, criterio, busqueda);
+                            break;
+                        default:
+                            break;
+
+                    }
+
+                }
                 datos.cargarConsulta(query);
                 datos.leerDatos();
 
@@ -194,7 +233,25 @@ namespace Negocio
             
             return listArticulo;
         }
-    
+    public string GetQueryString(string txt, string criterio, string variable)
+        {
+            switch (criterio) 
+            {
+                case "Comienza con":
+                    txt += " like '" + variable + "%'";
+                    return txt;
+                case "Termina con":
+                    txt += " like '%" + variable + "'";
+                    return txt;
+                case "Contiene":
+                    txt +=  " like '%" + variable + "%'";
+                    return txt;
+                default:
+                    return txt;
+
+            }
+
+        }
     }
     
 }

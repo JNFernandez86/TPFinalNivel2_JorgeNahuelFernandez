@@ -34,12 +34,12 @@ namespace Presentacion
             dgvArticulos.Columns["IdArticulo"].Visible = false;
             dgvArticulos.Columns["Precio"].DefaultCellStyle.Format = "c";
             dgvArticulos.RowHeadersVisible = false;
-            dgvArticulos.Columns[1].Width = 50;
-            dgvArticulos.Columns[2].Width = 120;
-            dgvArticulos.Columns[3].Width = 350;
-            dgvArticulos.Columns[4].Width = 75;
-            dgvArticulos.Columns[5].Width = 75;
-            dgvArticulos.Columns[7].Width = 90;
+            dgvArticulos.Columns[1].Width = (int)(dgvArticulos.Width * 0.05);
+            dgvArticulos.Columns[2].Width = (int)(dgvArticulos.Width * 0.20); 
+            dgvArticulos.Columns[3].Width = (int)(dgvArticulos.Width * 0.35);
+            dgvArticulos.Columns[4].Width = (int)(dgvArticulos.Width * 0.10);
+            dgvArticulos.Columns[5].Width = (int)(dgvArticulos.Width * 0.10);
+            dgvArticulos.Columns[7].Width = (int)(dgvArticulos.Width * 0.10);
         }
 
         public void cargarImagen(string imagen)
@@ -82,16 +82,16 @@ namespace Presentacion
             if (rdbPrecio.Checked == true)
             {
                 
-                cboCriterio.Items.Add("Igual a ");
-                cboCriterio.Items.Add("Mayor a ");
-                cboCriterio.Items.Add("Menor a ");
+                cboCriterio.Items.Add("Igual a");
+                cboCriterio.Items.Add("Mayor a");
+                cboCriterio.Items.Add("Menor a");
             }
             else
             {
                 
-                cboCriterio.Items.Add("Contiene ");
-                cboCriterio.Items.Add("Termina con ");
-                cboCriterio.Items.Add("Comienza con ");
+                cboCriterio.Items.Add("Contiene");
+                cboCriterio.Items.Add("Termina con");
+                cboCriterio.Items.Add("Comienza con");
             }
 
         }
@@ -175,19 +175,51 @@ namespace Presentacion
 
         private void txtBusqueda_TextChanged(object sender, EventArgs e)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            
             if(txtBusqueda.Text.Length > 2)
             {
-                btnBuscar.Enabled = true;
+                if (chbFiltroAvanzado.Checked == false)
+                {
+                    dgvArticulos.DataSource = negocio.buscar(txtBusqueda.Text, null, null);
+
+                }
             }
             else
             {
-                btnBuscar.Enabled =false;
+                if (chbFiltroAvanzado.Checked == false)
+                {
+                    cargar();
+
+                }
+
+                
             }
         }
-    
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+            ArticuloNegocio neg = new ArticuloNegocio();
+            try
+            {
+                string campo = "";
+                string criterio = "";
+
+                if (rdbNombre.Checked == true)
+                    campo = "Nombre";
+                else if (rdbDescripcion.Checked == true)
+                    campo = "Descripcion";
+                else
+                    campo = "Precio";
+                
+                criterio = cboCriterio.SelectedItem.ToString();
+                dgvArticulos.DataSource = neg.buscar(txtBusqueda.Text,campo, criterio);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
             
         }
 
@@ -206,18 +238,9 @@ namespace Presentacion
             else
             {
                 gbxFiltroAvanzado.Visible = false;
+                cargar();
 
-            }
-                
-        }
-
-        private void gbxFiltroAvanzado_Enter(object sender, EventArgs e)
-        {
-           
-            
-            
-                        
-           
+            }   
         }
 
         private void radiobuttonChecked(RadioButton rdb)
@@ -225,6 +248,9 @@ namespace Presentacion
             if (rdbNombre.Checked == true || rdbDescripcion.Checked == true || rdbPrecio.Checked == true)
             {
                 cargarcombobox();
+                cboCriterio.Text = "Seleccione la opción";
+                btnBuscar.Enabled = false;
+                cboCriterio.Focus();
             }
             else
             {
@@ -239,7 +265,13 @@ namespace Presentacion
 
         private void rdbPrecio_CheckedChanged(object sender, EventArgs e)
         {
+            
             radiobuttonChecked(rdbPrecio);
+        }
+
+        private void cboCriterio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnBuscar.Enabled = true;
         }
     }
 }

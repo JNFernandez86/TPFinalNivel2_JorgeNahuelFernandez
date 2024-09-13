@@ -105,6 +105,7 @@ namespace Presentacion
             cargar();
             gbxFiltroAvanzado.Visible = false;
             txtBusqueda.Enabled = true;
+            
         }
         private void btnAgregar_Click(object sender, EventArgs e)
         {
@@ -222,10 +223,8 @@ namespace Presentacion
 
             if (chbFiltroAvanzado.Checked == true)
             {
-                validarRdb();
                 gbxFiltroAvanzado.Visible = true;
-                txtBusqueda.Enabled = false;
-                lblCampo.Focus();
+                func.cargarComboBox(cboCriterio, rdbNombre, txtBusqueda);
             }
             else
             {
@@ -266,19 +265,7 @@ namespace Presentacion
                 else 
                     return false;
         }
-
-        private void validarRdb()
-        {
-            RadioButton radioc = Container.Components.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
-            if (radioc != null) 
-            {
-                cboCriterio.Enabled = true;
-            }
-            else
-            {
-                txtBusqueda.Enabled = false;
-            }
-        }
+                
     }
 }
 

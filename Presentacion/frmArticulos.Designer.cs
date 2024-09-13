@@ -73,10 +73,12 @@
             // rdbNombre
             // 
             this.rdbNombre.AutoSize = true;
+            this.rdbNombre.Checked = true;
             this.rdbNombre.Location = new System.Drawing.Point(11, 62);
             this.rdbNombre.Name = "rdbNombre";
             this.rdbNombre.Size = new System.Drawing.Size(71, 20);
             this.rdbNombre.TabIndex = 1;
+            this.rdbNombre.TabStop = true;
             this.rdbNombre.Text = "Nombre";
             this.rdbNombre.UseVisualStyleBackColor = true;
             this.rdbNombre.CheckedChanged += new System.EventHandler(this.rdbNombre_CheckedChanged);

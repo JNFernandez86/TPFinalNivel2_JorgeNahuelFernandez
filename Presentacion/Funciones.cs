@@ -27,7 +27,7 @@ namespace Presentacion
                 cmb.Items.Add("Termina con");
                 cmb.Items.Add("Comienza con");
             }
-            //cmb.Enabled = true;
+            cmb.Enabled = true;
             //cmb.Text = "Seleccione la opción";
             cmb.Focus();
             txt.Text = string.Empty;
@@ -89,7 +89,7 @@ namespace Presentacion
 
         public KeyPressEventArgs Isnumeric(KeyPressEventArgs e)
         {
-            if (char.IsNumber(e.KeyChar) | char.IsControl(e.KeyChar) | char.ToString(e.KeyChar) == ",")
+            if (char.IsNumber(e.KeyChar) | char.IsControl(e.KeyChar) | char.ToString(e.KeyChar) == ".")
             {
                 e.Handled = false;
             }

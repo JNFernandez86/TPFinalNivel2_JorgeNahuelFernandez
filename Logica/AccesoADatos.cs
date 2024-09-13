@@ -10,25 +10,27 @@ namespace Logica
 {
     public class AccesoADatos
     {
-        private string basedatos = ("server=.;database=CATALOGO_DB; integrated security=true");
-        //private string basedatos = ("Data Source=192.168.0.13;Initial Catalog=CATALOGO_DB; User ID=Administrador;Password=Soporte00");
+        //private string basedatos = ("server=.;database=CATALOGO_DB; integrated security=true; Connection Timeout=30");
+        private string basedatos = ("Data Source=192.168.0.13;Initial Catalog=CATALOGO_DB; User ID=Administrador;Password=Soporte00;");
         private SqlConnection conexion;
         private SqlCommand cmd;
         private SqlDataReader lector;
-
+        
+        
         public AccesoADatos()
         {
             conexion = new SqlConnection(basedatos);
             cmd = new SqlCommand();
+            cmd.CommandTimeout = 0;
         }
         public SqlDataReader da
         {
             get { return lector; }
         }
 
+
         private void abrirConexion()
         {
-            
             cmd.Connection = conexion;
             if(conexion.State == ConnectionState.Closed)
                 conexion.Open();
@@ -53,7 +55,6 @@ namespace Logica
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             
@@ -67,7 +68,6 @@ namespace Logica
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

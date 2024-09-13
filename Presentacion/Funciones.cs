@@ -12,22 +12,23 @@ namespace Presentacion
     {
         public void cargarComboBox(ComboBox cmb, RadioButton rdb, TextBox txt)
         {
-            cmb.Items.Clear();
+            
             if (rdb.Checked == true && rdb.Text == "Precio")
             {
+                cmb.Items.Clear();
                 cmb.Items.Add("Igual a");
                 cmb.Items.Add("Mayor a");
                 cmb.Items.Add("Menor a");
-                
             }
             else
             {
+                cmb.Items.Clear();
                 cmb.Items.Add("Contiene");
                 cmb.Items.Add("Termina con");
                 cmb.Items.Add("Comienza con");
             }
-            cmb.Enabled = true;
-            cmb.Text = "Seleccione la opción";
+            //cmb.Enabled = true;
+            //cmb.Text = "Seleccione la opción";
             cmb.Focus();
             txt.Text = string.Empty;
             txt.Enabled = false;

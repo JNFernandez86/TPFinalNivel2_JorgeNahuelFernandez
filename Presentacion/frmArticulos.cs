@@ -2,17 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Configuration;
 using Logica;
 using Negocio;
+using System.IO;
 
 namespace Presentacion
 {
@@ -40,10 +44,16 @@ namespace Presentacion
             {
                 pbxImagenArticulo.Load(imagen);
             }
+            catch (WebException)
+            {
+                
+                pbxImagenArticulo.ImageLocation = ("..\\Presentacion\\Resources\\logod.png");
+ 
+           }
             catch (Exception ex)
             {
-                pbxImagenArticulo.Load("https://static.thenounproject.com/png/261694-200.png");
-                
+                MessageBox.Show(ex.ToString());
+             
             }
         }
 
@@ -59,13 +69,14 @@ namespace Presentacion
                 func.seteoDatagridview(dgvArticulos);
                 pbxImagenArticulo.Load(ListaArt[0].UrlImagen);
                 txtBusqueda.Enabled = true;
-                lblAyuda.Visible = false;
+                lblAyudaCampo.Visible = false;
             }
             catch (SqlException)
             {
                 MessageBox.Show("Error al conectarse a la base! Comuniquese con el departamento de IT");
                 Close();
             }
+           
             catch (Exception ex)
             {
 

@@ -28,7 +28,7 @@ namespace Presentacion
                 cmb.Items.Add("Comienza con");
             }
             cmb.Enabled = true;
-            //cmb.Text = "Seleccione la opción";
+            cmb.Text = "Seleccione la opción";
             cmb.Focus();
             txt.Text = string.Empty;
             txt.Enabled = false;
@@ -51,7 +51,7 @@ namespace Presentacion
                     combo.DataSource = negocioMarca.listarMarca();
                     combo.ValueMember = "IdMarca";
                 }
-                
+               
                 combo.DisplayMember = "Descripcion";
                 combo.SelectedIndex = -1;
             }

@@ -63,19 +63,9 @@ namespace Presentacion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap error_de_conexion {
+        internal static System.Drawing.Bitmap error_404 {
             get {
-                object obj = ResourceManager.GetObject("error de conexion", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap logod {
-            get {
-                object obj = ResourceManager.GetObject("logod", resourceCulture);
+                object obj = ResourceManager.GetObject("error 404", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

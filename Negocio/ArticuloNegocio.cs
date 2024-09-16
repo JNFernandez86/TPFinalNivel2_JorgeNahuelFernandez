@@ -95,8 +95,7 @@ namespace Negocio
             
         {
             datos = new AccesoADatos();
-            query = ("UPDATE ARTICULOS SET Nombre=@name,Descripcion=@description,@IdMarca=idMarca,@IdCategoria=@idcategoria,ImagenUrl=@imagenUrl,Precio=@price  " +
-                " WHERE Id=@idArticulo");
+            query = ("UPDATE ARTICULOS SET Codigo=@code,Nombre=@name,Descripcion=@description,IdMarca=@idMarca,IdCategoria=@idcategoria,ImagenUrl=@imagenUrl,Precio=@price WHERE Id=@idArticulo");
 
 
             try

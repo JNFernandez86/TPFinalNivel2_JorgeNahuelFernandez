@@ -8,9 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
+using System.IO;
 using Logica;
 using Negocio;
-using static System.Net.Mime.MediaTypeNames;
+
 
 namespace Presentacion
 {
@@ -18,8 +20,8 @@ namespace Presentacion
     {
         private Articulo articulo = null;
         ArticuloNegocio negocioArt;
-        private string query;
         private Funciones func = new Funciones();
+        private OpenFileDialog archivo = null;
         public frmAltaArticulo()
         {
             InitializeComponent(); 
@@ -31,8 +33,7 @@ namespace Presentacion
             this.articulo = art;
             Text = "Modificar Articulos";
             btnAceptar.Text = "Actualizar Artículos";
-            btnAgregarMarca.Enabled = false;
-            btnAgregarCategoria.Enabled = false;
+            
         }
 
         private void cargarImagen(string img)
@@ -43,7 +44,7 @@ namespace Presentacion
             }
             catch (Exception ex)
             {
-                pbxImagen.Load("https://static.thenounproject.com/png/261694-200.png");
+                pbxImagen.Load("https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png?20200912122019");
             }
         }
 
@@ -55,7 +56,7 @@ namespace Presentacion
         private void frmAltaArticulo_Load(object sender, EventArgs e)
         {
            try
-            {                
+            {
                 func.cargarComboBox(cboCategoria);
                 func.cargarComboBox(cboMarca);
                
@@ -69,44 +70,14 @@ namespace Presentacion
                     cboMarca.SelectedValue = articulo.Marca.IdMarca;
                     cboCategoria.SelectedValue = articulo.Categoria.Id_Categoria;
                     txtPrecio.Text = articulo.Precio.ToString("##.##");
-                    
                 }
-                else
-                {
-                    cboCategoria.Enabled = false;
-                    cboMarca.Enabled = false;
-                }
-
             }
             catch (Exception ex)
             {
 
                 MessageBox.Show(ex.ToString());
             }
-
         }
-
-        //private void cargarCombobox()
-        //{
-        //    CategoriaNegocio negocioCategoria = new CategoriaNegocio();
-        //    MarcaNegocio negocioMarca = new MarcaNegocio();
-
-        //    try
-        //    {
-        //        cboCategoria.DataSource = negocioCategoria.listarcat();
-        //        cboCategoria.ValueMember = "Id_Categoria";
-        //        cboCategoria.DisplayMember = "Descripcion";
-        //        cboMarca.DataSource = negocioMarca.listarMarca();
-        //        cboMarca.ValueMember = "IdMarca";
-        //        cboMarca.DisplayMember = "Descripcion";
-                
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //         MessageBox.Show(ex.ToString());
-        //    }
-        //}
-
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             negocioArt = new ArticuloNegocio();
@@ -187,6 +158,18 @@ namespace Presentacion
             Funciones func = new Funciones();
 
             func.Isnumeric(e);
+        }
+
+        private void btnAgregarImagen_Click(object sender, EventArgs e)
+        {
+            archivo = new OpenFileDialog();
+            archivo.Filter = "png|*.png|jpg|*.jpg";
+            if(archivo.ShowDialog() == DialogResult.OK)
+            {
+                txtImagenURL.Text = archivo.FileName;
+                cargarImagen(archivo.FileName);
+                txtImagenURL.Text = (ConfigurationManager.AppSettings["Imagenes"] + archivo.SafeFileName);
+            }
         }
     }
 }

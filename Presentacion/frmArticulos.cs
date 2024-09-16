@@ -44,16 +44,20 @@ namespace Presentacion
             {
                 pbxImagenArticulo.Load(imagen);
             }
-            catch (WebException)
+            catch (WebException) 
             {
+                pbxImagenArticulo.ImageLocation = ("..\\Resources\\error404.jpg");
+                pbxImagenArticulo.Load();
+            }
+            catch (FileNotFoundException)
+            {
+                pbxImagenArticulo.Load("https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png?20200912122019");
                 
-                pbxImagenArticulo.ImageLocation = ("..\\Presentacion\\Resources\\logod.png");
- 
-           }
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-             
+
             }
         }
 
@@ -74,7 +78,7 @@ namespace Presentacion
             catch (SqlException)
             {
                 MessageBox.Show("Error al conectarse a la base! Comuniquese con el departamento de IT");
-                Close();
+                //Close();
             }
            
             catch (Exception ex)
@@ -152,6 +156,7 @@ namespace Presentacion
             ArticuloNegocio negocio = new ArticuloNegocio();
             try
             {
+                seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
                 if (dgvArticulos.CurrentRow != null)
                 {
                     DialogResult rta = MessageBox.Show("Esta por eliminar un artículo, Desea Continuar?", "Alerta, ELIMINANDO...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -249,6 +254,7 @@ namespace Presentacion
             if (cboCriterio.SelectedIndex != -1)
             {
                 txtBusqueda.Enabled = true;
+                txtBusqueda.Text = string.Empty;
                 txtBusqueda.Focus();
             }
             else
@@ -262,13 +268,7 @@ namespace Presentacion
             this.Close();
         }
         #endregion
-        private void txtBusqueda_EnabledChanged(object sender, EventArgs e)
-        {
-            if (txtBusqueda.Enabled == false)
-            {
-                
-            }
-        }
+       
         private bool validarRadioButtomActivo()
         {
                 if (rdbNombre.Checked || rdbDescripcion.Checked || rdbDescripcion.Checked)
@@ -276,7 +276,8 @@ namespace Presentacion
                 else 
                     return false;
         }
-                
+
+       
     }
 }
 

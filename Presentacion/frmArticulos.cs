@@ -30,43 +30,40 @@ namespace Presentacion
         #region Variables Globales
         private Funciones func;
         private AccesoADatos nueva = new AccesoADatos();
-        private List<Articulo> ListaArt = new List<Articulo>();
-        Articulo seleccion;
+        private List<Articulo> ListaArt;
+        
         private ArticuloNegocio negocioArt;
         private string query;
         #endregion
 
         #region Funciones Locales
-
-        public void cargarImagen(string imagen)
+        public void crearDirectorio()
         {
             try
             {
-                pbxImagenArticulo.Load(imagen);
-            }
-            catch (WebException) 
-            {
-                pbxImagenArticulo.ImageLocation = ("..\\Resources\\error404.jpg");
-                pbxImagenArticulo.Load();
-            }
-            catch (FileNotFoundException)
-            {
-                pbxImagenArticulo.Load("https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png?20200912122019");
+                string ruta = @"C:\Imagenes";
+                if (!Directory.Exists(ruta)) 
+                
+                    Directory.CreateDirectory(ruta);
                 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.ToString());
 
+                throw;
             }
         }
+      
 
         public void cargar()
         {
             func = new Funciones();
             negocioArt = new ArticuloNegocio();
+
+            dgvArticulos.DataSource = null;
             try
             {
+                crearDirectorio();
                 txtBusqueda.Enabled = true; 
                 ListaArt = negocioArt.mostrar();
                 dgvArticulos.DataSource = ListaArt;
@@ -132,17 +129,12 @@ namespace Presentacion
         {
             try
             {
-                if (dgvArticulos.CurrentRow != null)
-                {
-                    seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-                    frmAltaArticulo frm = new frmAltaArticulo(seleccion);
+                    Articulo seleccionado;
+                    seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+
+                    frmAltaArticulo frm = new frmAltaArticulo(seleccionado);
                     frm.ShowDialog();
                     cargar();
-                }
-                else
-                {
-                    MessageBox.Show("No ha seleccionado ningún artículo");
-                }
             }
 
             catch (Exception ex)
@@ -156,7 +148,7 @@ namespace Presentacion
             ArticuloNegocio negocio = new ArticuloNegocio();
             try
             {
-                seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                Articulo seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
                 if (dgvArticulos.CurrentRow != null)
                 {
                     DialogResult rta = MessageBox.Show("Esta por eliminar un artículo, Desea Continuar?", "Alerta, ELIMINANDO...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -181,11 +173,10 @@ namespace Presentacion
         #region Eventos otros controles
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
         {
-            Articulo elem = new Articulo();
-            if (dgvArticulos.CurrentRow != null)
+           if (dgvArticulos.CurrentRow != null)
             {
                 Articulo select = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-                cargarImagen(select.UrlImagen);
+                func.cargarImagen(select.UrlImagen,pbxImagenArticulo);
             }
         }
         private void txtBusqueda_TextChanged(object sender, EventArgs e)

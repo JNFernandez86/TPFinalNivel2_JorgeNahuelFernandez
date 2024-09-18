@@ -19,7 +19,6 @@ namespace Presentacion
     public partial class frmAltaArticulo : Form
     {
         private Articulo articulo = null;
-        ArticuloNegocio negocioArt;
         private Funciones func = new Funciones();
         private OpenFileDialog archivo = null;
         public frmAltaArticulo()
@@ -32,55 +31,53 @@ namespace Presentacion
             InitializeComponent();
             this.articulo = art;
             Text = "Modificar Articulos";
-            btnAceptar.Text = "Actualizar Artículos";
+            btnAceptar.Text = "Actualizar";
             
         }
 
-        private void cargarImagen(string img)
-        {
-            try
-            {
-                pbxImagen.Load(img);
-            }
-            catch (Exception ex)
-            {
-                pbxImagen.Load("https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png?20200912122019");
-            }
-        }
-
-            private void btnCancelar_Click(object sender, EventArgs e)
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
             Close();
         }
 
         private void frmAltaArticulo_Load(object sender, EventArgs e)
         {
+            CategoriaNegocio negociocat = new CategoriaNegocio();
+            MarcaNegocio negociomarca = new MarcaNegocio();
            try
             {
-                func.cargarComboBox(cboCategoria);
                 func.cargarComboBox(cboMarca);
-               
+                //func.cargarComboBox(cboCategoria);
+
+                cboCategoria.DataSource = negociocat.listarcat();
+                cboCategoria.ValueMember = "Id";
+                cboCategoria.DisplayMember = "Descripcion";
+
+                //cboMarca.DataSource = negociomarca.listarMarca();
+                //cboMarca.ValueMember = "Id";
+                //cboMarca.DisplayMember = "Descripcion";
+
+
                 if (articulo != null) 
                 {
                     txtCodigo.Text = articulo.Codigo;
                     txtNombre.Text = articulo.Nombre;
                     txtDescripcion.Text = articulo.Descripcion;
                     txtImagenURL.Text = articulo.UrlImagen;
-                    cargarImagen(articulo.UrlImagen);
-                    cboMarca.SelectedValue = articulo.Marca.IdMarca;
+                    func.cargarImagen(articulo.UrlImagen,pbxImagen);
                     cboCategoria.SelectedValue = articulo.Categoria.Id_Categoria;
-                    txtPrecio.Text = articulo.Precio.ToString("##.##");
+                    cboMarca.SelectedValue = articulo.Marca.IdMarca;
+                    txtPrecio.Text = articulo.Precio.ToString();
                 }
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.ToString());
             }
         }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            negocioArt = new ArticuloNegocio();
+            ArticuloNegocio negocioArt = new ArticuloNegocio();
 
             try
             {
@@ -106,7 +103,9 @@ namespace Presentacion
                     negocioArt.agregarArticulo(articulo);
                     MessageBox.Show("Articulo agregado exitosamente");
                 }
-                
+                if (archivo != null && !(txtImagenURL.Text.ToUpper().Contains("HTTP")))
+                    File.Copy(archivo.FileName, ConfigurationManager.AppSettings["Imagenes"] + archivo.SafeFileName);
+
             }
             catch (Exception ex)
             {
@@ -133,7 +132,7 @@ namespace Presentacion
 
         private void txtImagenURL_Leave(object sender, EventArgs e)
         {
-            cargarImagen(txtImagenURL.Text);
+            func.cargarImagen(txtImagenURL.Text,pbxImagen);
         }
 
         private void btnAgregarCategoria_Click(object sender, EventArgs e)
@@ -163,12 +162,12 @@ namespace Presentacion
         private void btnAgregarImagen_Click(object sender, EventArgs e)
         {
             archivo = new OpenFileDialog();
-            archivo.Filter = "png|*.png|jpg|*.jpg";
+            archivo.Filter = "png|*.png;|jpg|*.jpg";
             if(archivo.ShowDialog() == DialogResult.OK)
             {
                 txtImagenURL.Text = archivo.FileName;
-                cargarImagen(archivo.FileName);
-                txtImagenURL.Text = (ConfigurationManager.AppSettings["Imagenes"] + archivo.SafeFileName);
+                func.cargarImagen(archivo.FileName,pbxImagen);
+               
             }
         }
     }

@@ -1,7 +1,9 @@
 ﻿using Negocio;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -38,22 +40,29 @@ namespace Presentacion
             CategoriaNegocio negocioCategoria = new CategoriaNegocio();
             MarcaNegocio negocioMarca = new MarcaNegocio();
             string nombre = "";
+            
+
             try
             {
                 nombre = combo.Name;
+                
                 if(combo.Name == "cboCategoria")
                 {
+                    //combo.DataSource = null;
                     combo.DataSource = negocioCategoria.listarcat();
                     combo.ValueMember = "Id_Categoria";
+                    combo.DisplayMember = "Descripcion";
                 }
                 else
                 {
+                    //combo.DataSource = null;
                     combo.DataSource = negocioMarca.listarMarca();
                     combo.ValueMember = "IdMarca";
+                    combo.DisplayMember = "Descripcion";
                 }
                
-                combo.DisplayMember = "Descripcion";
-                combo.SelectedIndex = -1;
+                
+                //combo.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
@@ -99,6 +108,28 @@ namespace Presentacion
             }
             return e;
         }
+        public void cargarImagen(string imagen, PictureBox pbx)
+        {
+            try
+            {
+                pbx.Load(imagen);
+            }
+            catch (FileNotFoundException)
+            {
+                pbx.Load("https://archive.org/download/no-photo-available/no-photo-available.png");
 
+            }
+            catch (WebException)
+            {
+                pbx.ImageLocation = ("C:\\Imagenes\\error 404.jpg");
+                pbx.Load();
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+
+            }
+        }
     }
 }

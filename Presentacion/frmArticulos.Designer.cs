@@ -58,7 +58,7 @@
             this.lblCriterio.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCriterio.Location = new System.Drawing.Point(157, 26);
             this.lblCriterio.Name = "lblCriterio";
-            this.lblCriterio.Size = new System.Drawing.Size(55, 19);
+            this.lblCriterio.Size = new System.Drawing.Size(86, 27);
             this.lblCriterio.TabIndex = 10;
             this.lblCriterio.Text = "Criterio";
             // 
@@ -68,7 +68,7 @@
             this.lblCampo.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCampo.Location = new System.Drawing.Point(7, 26);
             this.lblCampo.Name = "lblCampo";
-            this.lblCampo.Size = new System.Drawing.Size(54, 19);
+            this.lblCampo.Size = new System.Drawing.Size(81, 27);
             this.lblCampo.TabIndex = 9;
             this.lblCampo.Text = "Campo";
             // 
@@ -78,7 +78,7 @@
             this.rdbNombre.Checked = true;
             this.rdbNombre.Location = new System.Drawing.Point(11, 62);
             this.rdbNombre.Name = "rdbNombre";
-            this.rdbNombre.Size = new System.Drawing.Size(71, 20);
+            this.rdbNombre.Size = new System.Drawing.Size(99, 26);
             this.rdbNombre.TabIndex = 1;
             this.rdbNombre.TabStop = true;
             this.rdbNombre.Text = "Nombre";
@@ -90,7 +90,7 @@
             this.rdbPrecio.AutoSize = true;
             this.rdbPrecio.Location = new System.Drawing.Point(11, 126);
             this.rdbPrecio.Name = "rdbPrecio";
-            this.rdbPrecio.Size = new System.Drawing.Size(61, 20);
+            this.rdbPrecio.Size = new System.Drawing.Size(87, 26);
             this.rdbPrecio.TabIndex = 3;
             this.rdbPrecio.Text = "Precio";
             this.rdbPrecio.UseVisualStyleBackColor = true;
@@ -101,7 +101,7 @@
             this.rdbDescripcion.AutoSize = true;
             this.rdbDescripcion.Location = new System.Drawing.Point(11, 95);
             this.rdbDescripcion.Name = "rdbDescripcion";
-            this.rdbDescripcion.Size = new System.Drawing.Size(93, 20);
+            this.rdbDescripcion.Size = new System.Drawing.Size(132, 26);
             this.rdbDescripcion.TabIndex = 2;
             this.rdbDescripcion.Text = "Descripción";
             this.rdbDescripcion.UseVisualStyleBackColor = true;
@@ -112,14 +112,14 @@
             this.cboCriterio.FormattingEnabled = true;
             this.cboCriterio.Location = new System.Drawing.Point(162, 62);
             this.cboCriterio.Name = "cboCriterio";
-            this.cboCriterio.Size = new System.Drawing.Size(195, 23);
+            this.cboCriterio.Size = new System.Drawing.Size(195, 30);
             this.cboCriterio.TabIndex = 4;
             this.cboCriterio.Text = "Seleccione Criterio";
             this.cboCriterio.SelectedIndexChanged += new System.EventHandler(this.cboCriterio_SelectedIndexChanged);
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(15, 634);
+            this.btnAgregar.Location = new System.Drawing.Point(417, 239);
             this.btnAgregar.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(179, 37);
@@ -130,7 +130,7 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(204, 634);
+            this.btnModificar.Location = new System.Drawing.Point(606, 239);
             this.btnModificar.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(179, 37);
@@ -141,7 +141,7 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(394, 635);
+            this.btnEliminar.Location = new System.Drawing.Point(796, 240);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(179, 35);
@@ -154,20 +154,19 @@
             // 
             this.lblBusqueda.AutoSize = true;
             this.lblBusqueda.Font = new System.Drawing.Font("Times New Roman", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBusqueda.Location = new System.Drawing.Point(12, 23);
+            this.lblBusqueda.Location = new System.Drawing.Point(10, 9);
             this.lblBusqueda.Name = "lblBusqueda";
-            this.lblBusqueda.Size = new System.Drawing.Size(61, 19);
+            this.lblBusqueda.Size = new System.Drawing.Size(92, 26);
             this.lblBusqueda.TabIndex = 1;
             this.lblBusqueda.Text = "Buscar:";
             // 
             // txtBusqueda
             // 
             this.txtBusqueda.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBusqueda.Location = new System.Drawing.Point(11, 53);
+            this.txtBusqueda.Location = new System.Drawing.Point(11, 38);
             this.txtBusqueda.Name = "txtBusqueda";
-            this.txtBusqueda.Size = new System.Drawing.Size(416, 26);
+            this.txtBusqueda.Size = new System.Drawing.Size(416, 35);
             this.txtBusqueda.TabIndex = 0;
-            
             this.txtBusqueda.TextChanged += new System.EventHandler(this.txtBusqueda_TextChanged);
             this.txtBusqueda.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBusqueda_KeyPress);
             // 
@@ -185,7 +184,7 @@
             this.dgvArticulos.RowHeadersWidth = 62;
             this.dgvArticulos.RowTemplate.Height = 28;
             this.dgvArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvArticulos.Size = new System.Drawing.Size(964, 329);
+            this.dgvArticulos.Size = new System.Drawing.Size(964, 279);
             this.dgvArticulos.TabIndex = 11;
             this.dgvArticulos.TabStop = false;
             this.dgvArticulos.SelectionChanged += new System.EventHandler(this.dgvArticulos_SelectionChanged);
@@ -193,9 +192,9 @@
             // chbFiltroAvanzado
             // 
             this.chbFiltroAvanzado.AutoSize = true;
-            this.chbFiltroAvanzado.Location = new System.Drawing.Point(12, 87);
+            this.chbFiltroAvanzado.Location = new System.Drawing.Point(12, 72);
             this.chbFiltroAvanzado.Name = "chbFiltroAvanzado";
-            this.chbFiltroAvanzado.Size = new System.Drawing.Size(137, 20);
+            this.chbFiltroAvanzado.Size = new System.Drawing.Size(195, 26);
             this.chbFiltroAvanzado.TabIndex = 1;
             this.chbFiltroAvanzado.Text = "Busqueda Avanzado";
             this.chbFiltroAvanzado.UseVisualStyleBackColor = true;
@@ -211,7 +210,7 @@
             this.gbxFiltroAvanzado.Controls.Add(this.rdbDescripcion);
             this.gbxFiltroAvanzado.Controls.Add(this.rdbNombre);
             this.gbxFiltroAvanzado.Controls.Add(this.rdbPrecio);
-            this.gbxFiltroAvanzado.Location = new System.Drawing.Point(11, 119);
+            this.gbxFiltroAvanzado.Location = new System.Drawing.Point(11, 104);
             this.gbxFiltroAvanzado.Name = "gbxFiltroAvanzado";
             this.gbxFiltroAvanzado.Size = new System.Drawing.Size(361, 171);
             this.gbxFiltroAvanzado.TabIndex = 2;
@@ -224,7 +223,7 @@
             this.label1.ForeColor = System.Drawing.Color.Red;
             this.label1.Location = new System.Drawing.Point(249, 30);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(18, 16);
+            this.label1.Size = new System.Drawing.Size(24, 22);
             this.label1.TabIndex = 13;
             this.label1.Text = " *";
             // 
@@ -234,7 +233,7 @@
             this.lblAyudaCampo.ForeColor = System.Drawing.Color.Red;
             this.lblAyudaCampo.Location = new System.Drawing.Point(86, 30);
             this.lblAyudaCampo.Name = "lblAyudaCampo";
-            this.lblAyudaCampo.Size = new System.Drawing.Size(18, 16);
+            this.lblAyudaCampo.Size = new System.Drawing.Size(24, 22);
             this.lblAyudaCampo.TabIndex = 12;
             this.lblAyudaCampo.Text = " *";
             // 
@@ -245,7 +244,7 @@
             this.llbSalir.Font = new System.Drawing.Font("Times New Roman", 16F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.llbSalir.Location = new System.Drawing.Point(1152, 9);
             this.llbSalir.Name = "llbSalir";
-            this.llbSalir.Size = new System.Drawing.Size(56, 25);
+            this.llbSalir.Size = new System.Drawing.Size(81, 36);
             this.llbSalir.TabIndex = 6;
             this.llbSalir.TabStop = true;
             this.llbSalir.Text = "Salir";
@@ -255,9 +254,9 @@
             // 
             this.lblAyudaBuscar.AutoSize = true;
             this.lblAyudaBuscar.ForeColor = System.Drawing.Color.Red;
-            this.lblAyudaBuscar.Location = new System.Drawing.Point(433, 60);
+            this.lblAyudaBuscar.Location = new System.Drawing.Point(433, 45);
             this.lblAyudaBuscar.Name = "lblAyudaBuscar";
-            this.lblAyudaBuscar.Size = new System.Drawing.Size(18, 16);
+            this.lblAyudaBuscar.Size = new System.Drawing.Size(24, 22);
             this.lblAyudaBuscar.TabIndex = 13;
             this.lblAyudaBuscar.Text = " *";
             // 
@@ -266,16 +265,15 @@
             this.pbxImagenArticulo.ErrorImage = null;
             this.pbxImagenArticulo.Location = new System.Drawing.Point(981, 296);
             this.pbxImagenArticulo.Name = "pbxImagenArticulo";
-            this.pbxImagenArticulo.Size = new System.Drawing.Size(246, 329);
+            this.pbxImagenArticulo.Size = new System.Drawing.Size(246, 279);
             this.pbxImagenArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbxImagenArticulo.TabIndex = 3;
             this.pbxImagenArticulo.TabStop = false;
             // 
             // frmArticulos
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1245, 685);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(1245, 598);
             this.ControlBox = false;
             this.Controls.Add(this.lblAyudaBuscar);
             this.Controls.Add(this.llbSalir);
@@ -289,10 +287,11 @@
             this.Controls.Add(this.lblBusqueda);
             this.Controls.Add(this.chbFiltroAvanzado);
             this.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.MaximizeBox = false;
             this.Name = "frmArticulos";
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Artículos";
             this.Load += new System.EventHandler(this.frmArticulos_Load);

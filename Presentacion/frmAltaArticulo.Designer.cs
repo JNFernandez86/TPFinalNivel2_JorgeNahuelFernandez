@@ -154,7 +154,7 @@
             // txtPrecio
             // 
             this.txtPrecio.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPrecio.Location = new System.Drawing.Point(722, 18);
+            this.txtPrecio.Location = new System.Drawing.Point(735, 18);
             this.txtPrecio.Margin = new System.Windows.Forms.Padding(4);
             this.txtPrecio.Name = "txtPrecio";
             this.txtPrecio.Size = new System.Drawing.Size(180, 30);
@@ -174,7 +174,7 @@
             // txtNombre
             // 
             this.txtNombre.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNombre.Location = new System.Drawing.Point(339, 17);
+            this.txtNombre.Location = new System.Drawing.Point(355, 18);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(4);
             this.txtNombre.MaxLength = 50;
             this.txtNombre.Name = "txtNombre";
@@ -260,11 +260,12 @@
             // 
             // btnAgregarImagen
             // 
+            this.btnAgregarImagen.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAgregarImagen.Location = new System.Drawing.Point(416, 114);
             this.btnAgregarImagen.Name = "btnAgregarImagen";
-            this.btnAgregarImagen.Size = new System.Drawing.Size(185, 43);
+            this.btnAgregarImagen.Size = new System.Drawing.Size(90, 43);
             this.btnAgregarImagen.TabIndex = 6;
-            this.btnAgregarImagen.Text = "Agregar Imagen";
+            this.btnAgregarImagen.Text = "+";
             this.btnAgregarImagen.UseVisualStyleBackColor = true;
             this.btnAgregarImagen.Click += new System.EventHandler(this.btnAgregarImagen_Click);
             // 

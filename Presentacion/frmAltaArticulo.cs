@@ -42,22 +42,13 @@ namespace Presentacion
 
         private void frmAltaArticulo_Load(object sender, EventArgs e)
         {
-            CategoriaNegocio negociocat = new CategoriaNegocio();
-            MarcaNegocio negociomarca = new MarcaNegocio();
+            
            try
             {
                 func.cargarComboBox(cboMarca);
-                //func.cargarComboBox(cboCategoria);
+                func.cargarComboBox(cboCategoria);
 
-                cboCategoria.DataSource = negociocat.listarcat();
-                cboCategoria.ValueMember = "Id";
-                cboCategoria.DisplayMember = "Descripcion";
-
-                //cboMarca.DataSource = negociomarca.listarMarca();
-                //cboMarca.ValueMember = "Id";
-                //cboMarca.DisplayMember = "Descripcion";
-
-
+                
                 if (articulo != null) 
                 {
                     txtCodigo.Text = articulo.Codigo;
@@ -65,9 +56,9 @@ namespace Presentacion
                     txtDescripcion.Text = articulo.Descripcion;
                     txtImagenURL.Text = articulo.UrlImagen;
                     func.cargarImagen(articulo.UrlImagen,pbxImagen);
-                    cboCategoria.SelectedValue = articulo.Categoria.Id_Categoria;
                     cboMarca.SelectedValue = articulo.Marca.IdMarca;
-                    txtPrecio.Text = articulo.Precio.ToString();
+                    cboCategoria.SelectedValue = articulo.Categoria.Id_Categoria;
+                    txtPrecio.Text = articulo.Precio.ToString("##.##");
                 }
             }
             catch (Exception ex)
@@ -94,7 +85,6 @@ namespace Presentacion
 
                 if (articulo.IdArticulo != 0)
                 {
-
                     negocioArt.modificarArticulo(articulo);
                     MessageBox.Show("Artículo Modificado exitosamente");
                 }

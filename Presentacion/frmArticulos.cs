@@ -22,19 +22,17 @@ namespace Presentacion
 {
     public partial class frmArticulos : Form
     {
+        #region Variables Globales
+        
+        private List<Articulo> ListaArt;
+        Articulo seleccionado;
+        Funciones func = new Funciones();
+
+        #endregion
         public frmArticulos()
         {
             InitializeComponent();
         }
-
-        #region Variables Globales
-        private Funciones func;
-        private AccesoADatos nueva = new AccesoADatos();
-        private List<Articulo> ListaArt;
-        
-        private ArticuloNegocio negocioArt;
-        private string query;
-        #endregion
 
         #region Funciones Locales
         public void crearDirectorio()
@@ -57,10 +55,9 @@ namespace Presentacion
 
         public void cargar()
         {
-            func = new Funciones();
-            negocioArt = new ArticuloNegocio();
-
-            dgvArticulos.DataSource = null;
+            
+            ArticuloNegocio negocioArt = new ArticuloNegocio();
+                       
             try
             {
                 crearDirectorio();
@@ -127,21 +124,10 @@ namespace Presentacion
         }
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            try
-            {
-                    Articulo seleccionado;
-                    seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-
-                    frmAltaArticulo frm = new frmAltaArticulo(seleccionado);
-                    frm.ShowDialog();
-                    cargar();
-            }
-
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-
+            seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+            frmAltaArticulo frm = new frmAltaArticulo(seleccionado);
+            frm.ShowDialog();
+            cargar();
         }
         private void btnEliminar_Click(object sender, EventArgs e)
         {

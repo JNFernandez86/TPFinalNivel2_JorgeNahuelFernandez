@@ -40,7 +40,6 @@ namespace Presentacion
             CategoriaNegocio negocioCategoria = new CategoriaNegocio();
             MarcaNegocio negocioMarca = new MarcaNegocio();
             string nombre = "";
-            
 
             try
             {
@@ -60,9 +59,7 @@ namespace Presentacion
                     combo.ValueMember = "IdMarca";
                     combo.DisplayMember = "Descripcion";
                 }
-               
-                
-                //combo.SelectedIndex = -1;
+                  //combo.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
@@ -112,11 +109,19 @@ namespace Presentacion
         {
             try
             {
-                pbx.Load(imagen);
+                if (imagen == null)
+                {
+                    pbx.Load("https://archive.org/download/no-photo-available/no-photo-available.png");
+                }
+                else
+                {
+                    pbx.Load(imagen);
+                }
+               
             }
             catch (FileNotFoundException)
             {
-                pbx.Load("https://archive.org/download/no-photo-available/no-photo-available.png");
+                
 
             }
             catch (WebException)

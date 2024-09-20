@@ -32,7 +32,6 @@ namespace Presentacion
             this.articulo = art;
             Text = "Modificar Articulos";
             btnAceptar.Text = "Actualizar";
-            
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -42,13 +41,11 @@ namespace Presentacion
 
         private void frmAltaArticulo_Load(object sender, EventArgs e)
         {
-            
            try
             {
                 func.cargarComboBox(cboMarca);
                 func.cargarComboBox(cboCategoria);
-
-                
+             
                 if (articulo != null) 
                 {
                     txtCodigo.Text = articulo.Codigo;
@@ -56,8 +53,8 @@ namespace Presentacion
                     txtDescripcion.Text = articulo.Descripcion;
                     txtImagenURL.Text = articulo.UrlImagen;
                     func.cargarImagen(articulo.UrlImagen,pbxImagen);
+                    cboCategoria.SelectedValue = articulo.Categoria.IdCategoria;
                     cboMarca.SelectedValue = articulo.Marca.IdMarca;
-                    cboCategoria.SelectedValue = articulo.Categoria.Id_Categoria;
                     txtPrecio.Text = articulo.Precio.ToString("##.##");
                 }
             }
@@ -74,14 +71,23 @@ namespace Presentacion
             {
                 if (articulo == null)
                     articulo = new Articulo();
-  
-                articulo.Codigo = txtCodigo.Text;
+
+                articulo.Codigo = txtCodigo.Text.ToUpper();
                 articulo.Nombre = txtNombre.Text;
                 articulo.Descripcion = txtDescripcion.Text;
                 articulo.Marca = (Marca)cboMarca.SelectedItem;
                 articulo.Categoria = (Categoria)cboCategoria.SelectedItem;
                 articulo.UrlImagen = txtImagenURL.Text;
                 articulo.Precio = Convert.ToDecimal(txtPrecio.Text);
+
+                if (archivo != null && !(txtImagenURL.Text.ToUpper().Contains("HTTP")))
+                {
+                    string nombrearchivo = (ConfigurationManager.AppSettings["Imagenes"] + archivo.SafeFileName);
+                    if (!File.Exists(nombrearchivo))
+                    {
+                        File.Copy(archivo.FileName, ConfigurationManager.AppSettings["Imagenes"] + archivo.SafeFileName);
+                    }
+                }
 
                 if (articulo.IdArticulo != 0)
                 {
@@ -93,9 +99,6 @@ namespace Presentacion
                     negocioArt.agregarArticulo(articulo);
                     MessageBox.Show("Articulo agregado exitosamente");
                 }
-                if (archivo != null && !(txtImagenURL.Text.ToUpper().Contains("HTTP")))
-                    File.Copy(archivo.FileName, ConfigurationManager.AppSettings["Imagenes"] + archivo.SafeFileName);
-
             }
             catch (Exception ex)
             {
@@ -103,7 +106,6 @@ namespace Presentacion
                 MessageBox.Show(ex.ToString());
             }
             Close();
-
         }
 
         private void txtCodigo_TextChanged(object sender, EventArgs e)
@@ -124,14 +126,12 @@ namespace Presentacion
         {
             func.cargarImagen(txtImagenURL.Text,pbxImagen);
         }
-
         private void btnAgregarCategoria_Click(object sender, EventArgs e)
         {
             string tabla = "Categoria";
             frmAltas altas = new frmAltas(tabla);
             altas.ShowDialog();
             func.cargarComboBox(cboCategoria);
-
         }
 
         private void btnAgregarMarca_Click(object sender, EventArgs e)
@@ -145,7 +145,6 @@ namespace Presentacion
         private void txtPrecio_KeyPress(object sender, KeyPressEventArgs e)
         {
             Funciones func = new Funciones();
-
             func.Isnumeric(e);
         }
 
@@ -157,7 +156,6 @@ namespace Presentacion
             {
                 txtImagenURL.Text = archivo.FileName;
                 func.cargarImagen(archivo.FileName,pbxImagen);
-               
             }
         }
     }

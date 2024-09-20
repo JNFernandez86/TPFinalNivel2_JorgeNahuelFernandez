@@ -39,11 +39,14 @@ namespace Presentacion
         {
             try
             {
-                string ruta = @"C:\Imagenes";
-                if (!Directory.Exists(ruta)) 
-                
+                string ruta = @"C:\Imagenes"
+;               string bkp = @"C:\Imagenes\temp";
+                if (!Directory.Exists(ruta))
                     Directory.CreateDirectory(ruta);
-                
+                    if(!Directory.Exists(bkp))
+                    Directory.CreateDirectory(bkp);
+
+
             }
             catch (Exception)
             {
@@ -51,8 +54,6 @@ namespace Presentacion
                 throw;
             }
         }
-      
-
         public void cargar()
         {
             
@@ -65,16 +66,18 @@ namespace Presentacion
                 ListaArt = negocioArt.mostrar();
                 dgvArticulos.DataSource = ListaArt;
                 func.seteoDatagridview(dgvArticulos);
-                pbxImagenArticulo.Load(ListaArt[0].UrlImagen);
+                pbxImagenArticulo.Load();
                 txtBusqueda.Enabled = true;
                 lblAyudaCampo.Visible = false;
+                btnModificar.Enabled = false;
+                btnEliminar.Enabled = false;
             }
             catch (SqlException)
             {
-                MessageBox.Show("Error al conectarse a la base! Comuniquese con el departamento de IT");
-                //Close();
+                MessageBox.Show("No posee conexión a la base de datos o la base de datos no existe, Comuniquese con el departamento de IT");
+                Close();
             }
-           
+
             catch (Exception ex)
             {
 
@@ -159,10 +162,19 @@ namespace Presentacion
         #region Eventos otros controles
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
         {
-           if (dgvArticulos.CurrentRow != null)
+            try
             {
-                Articulo select = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-                func.cargarImagen(select.UrlImagen,pbxImagenArticulo);
+                if (dgvArticulos.CurrentRow != null)
+                {
+                    Articulo select = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                    func.cargarImagen(select.UrlImagen, pbxImagenArticulo);
+                    btnModificar.Enabled = true;
+                    btnEliminar.Enabled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString());
             }
         }
         private void txtBusqueda_TextChanged(object sender, EventArgs e)
@@ -242,10 +254,9 @@ namespace Presentacion
         }
         private void llbSalir_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
         #endregion
-       
         private bool validarRadioButtomActivo()
         {
                 if (rdbNombre.Checked || rdbDescripcion.Checked || rdbDescripcion.Checked)
@@ -253,8 +264,11 @@ namespace Presentacion
                 else 
                     return false;
         }
-
-       
+        private void dgvArticulos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            btnModificar.Enabled = true;
+            btnEliminar.Enabled = true;
+        }
     }
 }
 

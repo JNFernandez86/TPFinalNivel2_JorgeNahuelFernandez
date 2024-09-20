@@ -17,10 +17,9 @@ namespace Negocio
         public List<Articulo> mostrar()
         {
             List<Articulo> list = new List<Articulo>();
-            query = ("select a.Id, a.CODIGO,a.NOMBRE, a.Descripcion,m.Descripcion Marca, m.Id IdMarca, c.Descripcion Categoria, m.id IdCategoria ,ImagenUrl, Precio " +
-                "from ARTICULOS a " +
-                "INNER JOIN MARCAS m ON m.Id = a.IdMarca " +
-                "INNER JOIN CATEGORIAS c on c.Id = a.IdCategoria");
+            query = ("SELECT a.Id, a.CODIGO,a.NOMBRE, a.Descripcion,m.Descripcion Marca, m.Id IdMarca, c.Descripcion Categoria, c.id IdCategoria, ImagenUrl, Precio " +
+                "FROM ARTICULOS a, CATEGORIAS c, MARCAS m WHERE m.Id = a.IdMarca and c.Id = a.IdCategoria;");
+               
             try
             {
                 datos.cargarConsulta(query);
@@ -39,11 +38,11 @@ namespace Negocio
                     aux.Marca.IdMarca = (int)datos.da["IdMarca"];
                     aux.Marca.Descripcion = (string)datos.da["Marca"];
                     aux.Categoria = new Categoria();
-                    aux.Categoria.Id_Categoria = (int)datos.da["IdCategoria"];
+                    aux.Categoria.IdCategoria = (int)datos.da["IdCategoria"];
                     aux.Categoria.Descripcion = (string)datos.da["Categoria"];
                     aux.Precio = (decimal)datos.da["Precio"];
                     if (!(datos.da["ImagenUrl"] is DBNull))
-                        aux.UrlImagen = aux.UrlImagen = (string)datos.da["ImagenUrl"];
+                        aux.UrlImagen = (string)datos.da["ImagenUrl"];
 
                     list.Add(aux);
                 }
@@ -74,15 +73,13 @@ namespace Negocio
                 datos.cargarParametros("@name", prop.Nombre);
                 datos.cargarParametros("@description", prop.Descripcion);
                 datos.cargarParametros("@idMarca", prop.Marca.IdMarca);
-                datos.cargarParametros("@idCategoria", prop.Categoria.Id_Categoria);
+                datos.cargarParametros("@idCategoria", prop.Categoria.IdCategoria);
                 datos.cargarParametros("@imagenUrl", prop.UrlImagen);
                 datos.cargarParametros("@price", prop.Precio);
                 datos.ejecutarProceso();
-
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -97,7 +94,6 @@ namespace Negocio
             datos = new AccesoADatos();
             query = ("UPDATE ARTICULOS SET Codigo=@code,Nombre=@name,Descripcion=@description,IdMarca=@idMarca,IdCategoria=@idcategoria,ImagenUrl=@imagenUrl,Precio=@price WHERE Id=@idArticulo");
 
-
             try
             {
                 datos.cargarConsulta(query);
@@ -106,7 +102,7 @@ namespace Negocio
                 datos.cargarParametros("@name", prop.Nombre);
                 datos.cargarParametros("@description", prop.Descripcion);
                 datos.cargarParametros("@idMarca", prop.Marca.IdMarca);
-                datos.cargarParametros("@idCategoria", prop.Categoria.Id_Categoria);
+                datos.cargarParametros("@idCategoria", prop.Categoria.IdCategoria);
                 datos.cargarParametros("@imagenUrl", prop.UrlImagen);
                 datos.cargarParametros("@price", prop.Precio);
                 datos.cargarParametros("@idArticulo", prop.IdArticulo);
@@ -209,7 +205,7 @@ namespace Negocio
                     nuevo.Marca.IdMarca = (int)datos.da["IdMarca"];
                     nuevo.Marca.Descripcion = (string)datos.da["Marca"];
                     nuevo.Categoria = new Categoria();
-                    nuevo.Categoria.Id_Categoria = (int)datos.da["IdCategoria"];
+                    nuevo.Categoria.IdCategoria = (int)datos.da["IdCategoria"];
                     nuevo.Categoria.Descripcion = (string)datos.da["Categoria"];
                     nuevo.Precio = (decimal)datos.da["Precio"];
                     if (!(datos.da["ImagenUrl"] is DBNull))

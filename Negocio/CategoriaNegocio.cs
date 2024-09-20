@@ -11,11 +11,11 @@ namespace Negocio
 {
     public class CategoriaNegocio
     {
-        public List<Categoria> listarcat()
+        public List<Categoria> listarCategoria()
         {
             AccesoADatos datos = new AccesoADatos();
             List<Categoria> list = new List<Categoria>();
-            string query = ("select Id,Descripcion from CATEGORIAS;");
+            string query = ("select Id, Descripcion from CATEGORIAS;");
 
             try
             {
@@ -25,7 +25,7 @@ namespace Negocio
                 while (datos.da.Read())
                 {
                     Categoria aux = new Categoria();
-                    aux.Id_Categoria = (int)datos.da["Id"];
+                    aux.IdCategoria = (int)datos.da["Id"];
                     aux.Descripcion = (string)datos.da["Descripcion"];
                     list.Add(aux);
 

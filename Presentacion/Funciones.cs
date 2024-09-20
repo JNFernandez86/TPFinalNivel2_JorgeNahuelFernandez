@@ -45,18 +45,18 @@ namespace Presentacion
             {
                 nombre = combo.Name;
                 
-                if(combo.Name == "cboCategoria")
+                if(combo.Name == "cboMarca")
                 {
-                    //combo.DataSource = null;
-                    combo.DataSource = negocioCategoria.listarcat();
-                    combo.ValueMember = "Id_Categoria";
+                   // combo.DataSource = null;
+                    combo.DataSource = negocioMarca.listarMarca();
+                    combo.ValueMember = "IdMarca";
                     combo.DisplayMember = "Descripcion";
                 }
                 else
                 {
-                    //combo.DataSource = null;
-                    combo.DataSource = negocioMarca.listarMarca();
-                    combo.ValueMember = "IdMarca";
+                    combo.DataSource = null;
+                    combo.DataSource = negocioCategoria.listarCategoria();
+                    combo.ValueMember = "IdCategoria";
                     combo.DisplayMember = "Descripcion";
                 }
                   //combo.SelectedIndex = -1;
@@ -71,13 +71,13 @@ namespace Presentacion
             dgv.Columns["UrlImagen"].Visible = false;
             dgv.Columns["IdArticulo"].Visible = false;
             dgv.Columns["Precio"].DefaultCellStyle.Format = "c";
-            dgv.RowHeadersVisible = false;
+            dgv.RowHeadersWidth = (int)(dgv.Width * 0.04);
             dgv.Columns[1].Width = (int)(dgv.Width * 0.05);
             dgv.Columns[2].Width = (int)(dgv.Width * 0.20);
-            dgv.Columns[3].Width = (int)(dgv.Width * 0.35);
-            dgv.Columns[4].Width = (int)(dgv.Width * 0.10);
-            dgv.Columns[5].Width = (int)(dgv.Width * 0.10);
-            dgv.Columns[7].Width = (int)(dgv.Width * 0.10);
+            dgv.Columns[3].Width = (int)(dgv.Width * 0.40);
+            dgv.Columns[4].Width = (int)(dgv.Width * 0.075);
+            dgv.Columns[5].Width = (int)(dgv.Width * 0.075);
+            dgv.Columns[7].Width = (int)(dgv.Width * 0.15);
         }
 
         public KeyPressEventArgs IsLetter(KeyPressEventArgs e)
@@ -95,7 +95,7 @@ namespace Presentacion
 
         public KeyPressEventArgs Isnumeric(KeyPressEventArgs e)
         {
-            if (char.IsNumber(e.KeyChar) | char.IsControl(e.KeyChar) | char.ToString(e.KeyChar) == ".")
+            if (char.IsNumber(e.KeyChar) | char.IsControl(e.KeyChar) | char.ToString(e.KeyChar) == ",")
             {
                 e.Handled = false;
             }
@@ -107,11 +107,12 @@ namespace Presentacion
         }
         public void cargarImagen(string imagen, PictureBox pbx)
         {
+            string url = "https://archive.org/download/no-photo-available/no-photo-available.png";
             try
             {
-                if (imagen == null)
+                if (imagen == null || imagen == string.Empty)
                 {
-                    pbx.Load("https://archive.org/download/no-photo-available/no-photo-available.png");
+                    pbx.Load(url);
                 }
                 else
                 {
@@ -119,15 +120,15 @@ namespace Presentacion
                 }
                
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException) 
             {
-                
-
+                pbx.Load(url);
             }
+           
             catch (WebException)
             {
-                pbx.ImageLocation = ("C:\\Imagenes\\error 404.jpg");
-                pbx.Load();
+               
+                pbx.Load("https://www.adslzone.net/app/uploads-adslzone.net/2016/08/error-404.jpg");
             }
 
             catch (Exception ex)

@@ -8,7 +8,7 @@ namespace Logica
 {
     public class Categoria
     {
-        public int Id_Categoria {  get; set; }
+        public int IdCategoria {  get; set; }
         public string Descripcion { get; set; }
         public override string ToString()
         {

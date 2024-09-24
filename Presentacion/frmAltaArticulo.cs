@@ -80,14 +80,7 @@ namespace Presentacion
                 articulo.UrlImagen = txtImagenURL.Text;
                 articulo.Precio = Convert.ToDecimal(txtPrecio.Text);
 
-                if (archivo != null && !(txtImagenURL.Text.ToUpper().Contains("HTTP")))
-                {
-                    string nombrearchivo = (ConfigurationManager.AppSettings["Imagenes"] + archivo.SafeFileName);
-                    if (!File.Exists(nombrearchivo))
-                    {
-                        File.Copy(archivo.FileName, ConfigurationManager.AppSettings["Imagenes"] + archivo.SafeFileName);
-                    }
-                }
+              
 
                 if (articulo.IdArticulo != 0)
                 {
@@ -98,6 +91,15 @@ namespace Presentacion
                 {
                     negocioArt.agregarArticulo(articulo);
                     MessageBox.Show("Articulo agregado exitosamente");
+                }
+
+                if (archivo != null && !(txtImagenURL.Text.ToUpper().Contains("HTTP")))
+                {
+                    string nombrearchivo = (ConfigurationManager.AppSettings["Imagenes"] + archivo.SafeFileName);
+                    if (!File.Exists(nombrearchivo))
+                    {
+                        File.Copy(archivo.FileName, ConfigurationManager.AppSettings["Imagenes"] + archivo.SafeFileName);
+                    }
                 }
             }
             catch (Exception ex)
@@ -151,10 +153,10 @@ namespace Presentacion
         private void btnAgregarImagen_Click(object sender, EventArgs e)
         {
             archivo = new OpenFileDialog();
-            archivo.Filter = "png|*.png;|jpg|*.jpg";
+            archivo.Filter = "png|*.png |jpg|*.jpg";
             if(archivo.ShowDialog() == DialogResult.OK)
             {
-                txtImagenURL.Text = archivo.FileName;
+                txtImagenURL.Text = (ConfigurationManager.AppSettings["Imagenes"] + archivo.SafeFileName);
                 func.cargarImagen(archivo.FileName,pbxImagen);
             }
         }

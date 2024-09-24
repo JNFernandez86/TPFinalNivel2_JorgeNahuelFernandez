@@ -255,6 +255,7 @@ namespace Presentacion
         private void llbSalir_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Application.Exit();
+            this.Dispose();
         }
         #endregion
         private bool validarRadioButtomActivo()

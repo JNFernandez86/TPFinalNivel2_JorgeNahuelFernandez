@@ -180,10 +180,19 @@ namespace Negocio
                             query += GetQueryString(campo, criterio, busqueda);
 
                             break;
-                        case "Descripcion":
+                        case "Descripción":
                             campo = "a.Descripcion";
                             query += GetQueryString(campo, criterio, busqueda);
                             break;
+                        case "Categoría":
+                            campo = "c.Descripcion";
+                            query += GetQueryString(campo, criterio, busqueda);
+                            break;
+                        case "Marca":
+                            campo = "m.Descripcion";
+                            query += GetQueryString(campo, criterio, busqueda);
+                            break;
+
                         default:
                             break;
 

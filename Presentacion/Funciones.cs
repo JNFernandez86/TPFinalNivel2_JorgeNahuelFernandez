@@ -8,30 +8,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Presentacion
 {
     public class Funciones
     {
-        public void cargarComboBox(ComboBox cmb, RadioButton rdb, TextBox txt)
+       #region Funciones para ComboBox
+        public void cargarComboBox(ComboBox secundario, ComboBox principal,TextBox txt)
         {
-            
-            if (rdb.Checked == true && rdb.Text == "Precio")
+
+            if (principal.SelectedItem.ToString() == "Precio")
             {
-                cmb.Items.Clear();
-                cmb.Items.Add("Igual a");
-                cmb.Items.Add("Mayor a");
-                cmb.Items.Add("Menor a");
+                secundario.Items.Clear();
+                secundario.Items.Add("Igual a");
+                secundario.Items.Add("Mayor a");
+                secundario.Items.Add("Menor a");
             }
             else
             {
-                cmb.Items.Clear();
-                cmb.Items.Add("Contiene");
-                cmb.Items.Add("Termina con");
-                cmb.Items.Add("Comienza con");
+                secundario.Items.Clear();
+                secundario.Items.Add("Contiene");
+                secundario.Items.Add("Termina con");
+                secundario.Items.Add("Comienza con");
             }
-            cmb.Enabled = true;
-            cmb.Text = "Seleccione la opción";
-            cmb.Focus();
+            secundario.Enabled = true;            
             txt.Text = string.Empty;
             txt.Enabled = false;
         }
@@ -44,10 +44,10 @@ namespace Presentacion
             try
             {
                 nombre = combo.Name;
-                
-                if(combo.Name == "cboMarca")
+
+                if (combo.Name == "cboMarca")
                 {
-                   // combo.DataSource = null;
+                    // combo.DataSource = null;
                     combo.DataSource = negocioMarca.listarMarca();
                     combo.ValueMember = "IdMarca";
                     combo.DisplayMember = "Descripcion";
@@ -59,27 +59,61 @@ namespace Presentacion
                     combo.ValueMember = "IdCategoria";
                     combo.DisplayMember = "Descripcion";
                 }
-                  //combo.SelectedIndex = -1;
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
         }
-        public void seteoDatagridview(DataGridView dgv)
+        #endregion
+       #region Funciones para el manejo de imagenes
+        public void copiarImagenes(DirectoryInfo resources, DirectoryInfo carpetaDestino)
         {
-            dgv.Columns["UrlImagen"].Visible = false;
-            dgv.Columns["IdArticulo"].Visible = false;
-            dgv.Columns["Precio"].DefaultCellStyle.Format = "c";
-            dgv.RowHeadersWidth = (int)(dgv.Width * 0.04);
-            dgv.Columns[1].Width = (int)(dgv.Width * 0.05);
-            dgv.Columns[2].Width = (int)(dgv.Width * 0.20);
-            dgv.Columns[3].Width = (int)(dgv.Width * 0.40);
-            dgv.Columns[4].Width = (int)(dgv.Width * 0.075);
-            dgv.Columns[5].Width = (int)(dgv.Width * 0.075);
-            dgv.Columns[7].Width = (int)(dgv.Width * 0.15);
-        }
+            //copia las imagenes de la carpeta resource del proyecto a la carpeta creada para alaojar las imagenes "C:\Imagenes\"
+            foreach (FileInfo fi in resources.GetFiles())
+            {
+                fi.CopyTo(Path.Combine(carpetaDestino.ToString(), fi.Name), true);
+            }
 
+        }
+        public void cargarImagen(string imagen, PictureBox pbx)
+        {
+            //Carga la imagen dependiendo del URL en el campo ImagenURL:
+            string url = setearCarpetaRecursos();
+            string nophotoavaiable = url + "no-photo-available.png";
+            string error404 = url + "error-4041.jpg";
+            try
+            {
+                if (imagen == null || imagen == string.Empty)
+                {
+                    pbx.Load(nophotoavaiable);
+                }
+                else
+                {
+                    pbx.Load(imagen);
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                pbx.Load(nophotoavaiable);
+            }
+            catch (WebException)
+            {
+                pbx.Load(error404);
+            }
+            catch (ArgumentException)
+            {
+                pbx.Load(error404);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        #endregion
+       #region Funciones KeyPress
+        //Funciones para controlar el ingreso solo texto o solo números con el cáracter de la coma (,)
         public KeyPressEventArgs IsLetter(KeyPressEventArgs e)
         {
             if (Char.IsLetter(e.KeyChar) | Char.IsWhiteSpace(e.KeyChar) | char.IsControl(e.KeyChar))
@@ -92,7 +126,6 @@ namespace Presentacion
             }
             return e;
         }
-
         public KeyPressEventArgs Isnumeric(KeyPressEventArgs e)
         {
             if (char.IsNumber(e.KeyChar) | char.IsControl(e.KeyChar) | char.ToString(e.KeyChar) == ",")
@@ -105,37 +138,41 @@ namespace Presentacion
             }
             return e;
         }
-        public void cargarImagen(string imagen, PictureBox pbx)
+        #endregion
+       #region Otras
+        public string setearCarpetaRecursos()
         {
-            string url = "https://archive.org/download/no-photo-available/no-photo-available.png";
-            try
-            {
-                if (imagen == null || imagen == string.Empty)
-                {
-                    pbx.Load(url);
-                }
-                else
-                {
-                    pbx.Load(imagen);
-                }
-               
-            }
-            catch (FileNotFoundException) 
-            {
-                pbx.Load(url);
-            }
-           
-            catch (WebException)
-            {
-               
-                pbx.Load("https://www.adslzone.net/app/uploads-adslzone.net/2016/08/error-404.jpg");
-            }
-
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-
-            }
+            //Función que crea el directorio para guardar las imagenes del proyecto
+            string carpeta_recursos = @"Resources\";
+            string ruta = System.IO.Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
+            string url = System.IO.Path.Combine(ruta, carpeta_recursos);
+            return url;
         }
+        public void seteoDatagridview(DataGridView dgv)
+        {
+            //vista de/los datagridview
+            dgv.Columns["UrlImagen"].Visible = false;
+            dgv.Columns["IdArticulo"].Visible = false;
+            dgv.Columns["Precio"].DefaultCellStyle.Format = "c";
+            dgv.RowHeadersWidth = (int)(dgv.Width * 0.04);
+            dgv.Columns[1].Width = (int)(dgv.Width * 0.08);
+            dgv.Columns[2].Width = (int)(dgv.Width * 0.20);
+            dgv.Columns[3].Width = (int)(dgv.Width * 0.40);
+            dgv.Columns[4].Width = (int)(dgv.Width * 0.1);
+            dgv.Columns[5].Width = (int)(dgv.Width * 0.1);
+            dgv.Columns[7].Width = (int)(dgv.Width * 0.125);
+
+        }
+        public bool validarRadioButtomActivo(RadioButton radiobtn)
+        {
+            //Funcion que chequea si un control RadioButton esta activo
+            if (radiobtn.Checked)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
+
     }
 }

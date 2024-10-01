@@ -65,7 +65,7 @@ namespace Presentacion.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap error_404 {
             get {
-                object obj = ResourceManager.GetObject("error 404", resourceCulture);
+                object obj = ResourceManager.GetObject("error-404", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
